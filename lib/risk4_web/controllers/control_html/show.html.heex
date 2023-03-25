@@ -1,0 +1,16 @@
+<.header>
+  Control <%= @control.id %>
+  <:subtitle>This is a control record from your database.</:subtitle>
+  <:actions>
+    <.link href={~p"/controls/#{@control}/edit"}>
+      <.button>Edit control</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Name"><%= @control.name %></:item>
+  <:item title="Description"><%= @control.description %></:item>
+</.list>
+
+<.back navigate={~p"/controls"}>Back to controls</.back>

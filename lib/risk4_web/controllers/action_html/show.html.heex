@@ -1,0 +1,17 @@
+<.header>
+  Action <%= @action.id %>
+  <:subtitle>This is a action record from your database.</:subtitle>
+  <:actions>
+    <.link href={~p"/actions/#{@action}/edit"}>
+      <.button>Edit action</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Title"><%= @action.title %></:item>
+  <:item title="Description"><%= @action.description %></:item>
+  <:item title="Due date"><%= @action.due_date %></:item>
+</.list>
+
+<.back navigate={~p"/actions"}>Back to actions</.back>

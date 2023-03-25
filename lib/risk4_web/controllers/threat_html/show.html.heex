@@ -1,0 +1,16 @@
+<.header>
+  Threat <%= @threat.id %>
+  <:subtitle>This is a threat record from your database.</:subtitle>
+  <:actions>
+    <.link href={~p"/threats/#{@threat}/edit"}>
+      <.button>Edit threat</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Name"><%= @threat.name %></:item>
+  <:item title="Description"><%= @threat.description %></:item>
+</.list>
+
+<.back navigate={~p"/threats"}>Back to threats</.back>

@@ -1,0 +1,33 @@
+<.header>
+  Listing Riskassessments
+  <:actions>
+    <.link href={~p"/riskassessments/new"}>
+      <.button>New Risk assessment</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.table id="riskassessments" rows={@riskassessments} row_click={&JS.navigate(~p"/riskassessments/#{&1}")}>
+  <:col :let={risk_assessment} label="Name"><%= risk_assessment.name %></:col>
+  <:col :let={risk_assessment} label="Description"><%= risk_assessment.description %></:col>
+  <:col :let={risk_assessment} label="Start date"><%= risk_assessment.start_date %></:col>
+  <:col :let={risk_assessment} label="Due date"><%= risk_assessment.due_date %></:col>
+  <:col :let={risk_assessment} label="Precontrol impact"><%= risk_assessment.precontrol_impact %></:col>
+  <:col :let={risk_assessment} label="Precontrol likelihood"><%= risk_assessment.precontrol_likelihood %></:col>
+  <:col :let={risk_assessment} label="Precontrol risk"><%= risk_assessment.precontrol_risk %></:col>
+  <:col :let={risk_assessment} label="Postcontrol impact"><%= risk_assessment.postcontrol_impact %></:col>
+  <:col :let={risk_assessment} label="Postcontrol likelihood"><%= risk_assessment.postcontrol_likelihood %></:col>
+  <:col :let={risk_assessment} label="Postcontrol risk"><%= risk_assessment.postcontrol_risk %></:col>
+  <:col :let={risk_assessment} label="Consequences"><%= risk_assessment.consequences %></:col>
+  <:action :let={risk_assessment}>
+    <div class="sr-only">
+      <.link navigate={~p"/riskassessments/#{risk_assessment}"}>Show</.link>
+    </div>
+    <.link navigate={~p"/riskassessments/#{risk_assessment}/edit"}>Edit</.link>
+  </:action>
+  <:action :let={risk_assessment}>
+    <.link href={~p"/riskassessments/#{risk_assessment}"} method="delete" data-confirm="Are you sure?">
+      Delete
+    </.link>
+  </:action>
+</.table>

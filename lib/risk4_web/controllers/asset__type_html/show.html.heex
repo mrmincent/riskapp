@@ -1,0 +1,16 @@
+<.header>
+  Asset  type <%= @asset__type.id %>
+  <:subtitle>This is a asset__type record from your database.</:subtitle>
+  <:actions>
+    <.link href={~p"/asset_types/#{@asset__type}/edit"}>
+      <.button>Edit asset__type</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Name"><%= @asset__type.name %></:item>
+  <:item title="Description"><%= @asset__type.description %></:item>
+</.list>
+
+<.back navigate={~p"/asset_types"}>Back to asset_types</.back>

@@ -1,0 +1,24 @@
+<.header>
+  Listing Threats
+  <:actions>
+    <.link href={~p"/threats/new"}>
+      <.button>New Threat</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.table id="threats" rows={@threats} row_click={&JS.navigate(~p"/threats/#{&1}")}>
+  <:col :let={threat} label="Name"><%= threat.name %></:col>
+  <:col :let={threat} label="Description"><%= threat.description %></:col>
+  <:action :let={threat}>
+    <div class="sr-only">
+      <.link navigate={~p"/threats/#{threat}"}>Show</.link>
+    </div>
+    <.link navigate={~p"/threats/#{threat}/edit"}>Edit</.link>
+  </:action>
+  <:action :let={threat}>
+    <.link href={~p"/threats/#{threat}"} method="delete" data-confirm="Are you sure?">
+      Delete
+    </.link>
+  </:action>
+</.table>

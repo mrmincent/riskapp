@@ -1,0 +1,8 @@
+<.header>
+  Edit Threat <%= @threat.id %>
+  <:subtitle>Use this form to manage threat records in your database.</:subtitle>
+</.header>
+
+<.threat_form changeset={@changeset} action={~p"/threats/#{@threat}"} />
+
+<.back navigate={~p"/threats"}>Back to threats</.back>

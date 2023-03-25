@@ -1,0 +1,19 @@
+<.simple_form :let={f} for={@changeset} action={@action}>
+  <.error :if={@changeset.action}>
+    Oops, something went wrong! Please check the errors below.
+  </.error>
+  <.input field={f[:name]} type="text" label="Name" />
+  <.input field={f[:description]} type="text" label="Description" />
+  <.input field={f[:start_date]} type="date" label="Start date" />
+  <.input field={f[:due_date]} type="date" label="Due date" />
+  <.input field={f[:precontrol_impact]} type="number" label="Precontrol impact" />
+  <.input field={f[:precontrol_likelihood]} type="number" label="Precontrol likelihood" />
+  <.input field={f[:precontrol_risk]} type="number" label="Precontrol risk" />
+  <.input field={f[:postcontrol_impact]} type="number" label="Postcontrol impact" />
+  <.input field={f[:postcontrol_likelihood]} type="number" label="Postcontrol likelihood" />
+  <.input field={f[:postcontrol_risk]} type="number" label="Postcontrol risk" />
+  <.input field={f[:consequences]} type="text" label="Consequences" />
+  <:actions>
+    <.button>Save Risk assessment</.button>
+  </:actions>
+</.simple_form>

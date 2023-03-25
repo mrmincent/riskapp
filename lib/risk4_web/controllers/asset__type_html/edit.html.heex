@@ -1,0 +1,8 @@
+<.header>
+  Edit Asset  type <%= @asset__type.id %>
+  <:subtitle>Use this form to manage asset__type records in your database.</:subtitle>
+</.header>
+
+<.asset__type_form changeset={@changeset} action={~p"/asset_types/#{@asset__type}"} />
+
+<.back navigate={~p"/asset_types"}>Back to asset_types</.back>

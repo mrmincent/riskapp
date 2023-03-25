@@ -1,0 +1,25 @@
+<.header>
+  Risk assessment <%= @risk_assessment.id %>
+  <:subtitle>This is a risk_assessment record from your database.</:subtitle>
+  <:actions>
+    <.link href={~p"/riskassessments/#{@risk_assessment}/edit"}>
+      <.button>Edit risk_assessment</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Name"><%= @risk_assessment.name %></:item>
+  <:item title="Description"><%= @risk_assessment.description %></:item>
+  <:item title="Start date"><%= @risk_assessment.start_date %></:item>
+  <:item title="Due date"><%= @risk_assessment.due_date %></:item>
+  <:item title="Precontrol impact"><%= @risk_assessment.precontrol_impact %></:item>
+  <:item title="Precontrol likelihood"><%= @risk_assessment.precontrol_likelihood %></:item>
+  <:item title="Precontrol risk"><%= @risk_assessment.precontrol_risk %></:item>
+  <:item title="Postcontrol impact"><%= @risk_assessment.postcontrol_impact %></:item>
+  <:item title="Postcontrol likelihood"><%= @risk_assessment.postcontrol_likelihood %></:item>
+  <:item title="Postcontrol risk"><%= @risk_assessment.postcontrol_risk %></:item>
+  <:item title="Consequences"><%= @risk_assessment.consequences %></:item>
+</.list>
+
+<.back navigate={~p"/riskassessments"}>Back to riskassessments</.back>

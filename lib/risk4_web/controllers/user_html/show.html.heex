@@ -1,0 +1,20 @@
+<.header>
+  User <%= @user.id %>
+  <:subtitle>This is a user record from your database.</:subtitle>
+  <:actions>
+    <.link href={~p"/users/#{@user}/edit"}>
+      <.button>Edit user</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Fname"><%= @user.fname %></:item>
+  <:item title="Lname"><%= @user.lname %></:item>
+  <:item title="Email"><%= @user.email %></:item>
+  <:item title="Phone"><%= @user.phone %></:item>
+  <:item title="Level"><%= @user.level %></:item>
+  <:item title="Avatar"><%= @user.avatar %></:item>
+</.list>
+
+<.back navigate={~p"/users"}>Back to users</.back>

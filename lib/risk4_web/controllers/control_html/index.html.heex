@@ -1,0 +1,24 @@
+<.header>
+  Listing Controls
+  <:actions>
+    <.link href={~p"/controls/new"}>
+      <.button>New Control</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.table id="controls" rows={@controls} row_click={&JS.navigate(~p"/controls/#{&1}")}>
+  <:col :let={control} label="Name"><%= control.name %></:col>
+  <:col :let={control} label="Description"><%= control.description %></:col>
+  <:action :let={control}>
+    <div class="sr-only">
+      <.link navigate={~p"/controls/#{control}"}>Show</.link>
+    </div>
+    <.link navigate={~p"/controls/#{control}/edit"}>Edit</.link>
+  </:action>
+  <:action :let={control}>
+    <.link href={~p"/controls/#{control}"} method="delete" data-confirm="Are you sure?">
+      Delete
+    </.link>
+  </:action>
+</.table>

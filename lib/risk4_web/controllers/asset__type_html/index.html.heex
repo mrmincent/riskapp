@@ -1,0 +1,24 @@
+<.header>
+  Listing Asset types
+  <:actions>
+    <.link href={~p"/asset_types/new"}>
+      <.button>New Asset  type</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.table id="asset_types" rows={@asset_types} row_click={&JS.navigate(~p"/asset_types/#{&1}")}>
+  <:col :let={asset__type} label="Name"><%= asset__type.name %></:col>
+  <:col :let={asset__type} label="Description"><%= asset__type.description %></:col>
+  <:action :let={asset__type}>
+    <div class="sr-only">
+      <.link navigate={~p"/asset_types/#{asset__type}"}>Show</.link>
+    </div>
+    <.link navigate={~p"/asset_types/#{asset__type}/edit"}>Edit</.link>
+  </:action>
+  <:action :let={asset__type}>
+    <.link href={~p"/asset_types/#{asset__type}"} method="delete" data-confirm="Are you sure?">
+      Delete
+    </.link>
+  </:action>
+</.table>
