@@ -16,8 +16,8 @@ defmodule Risk4.Assessment.Action do
   @doc false
   def changeset(action, attrs) do
     action
-    |> cast(attrs, [:title, :description, :due_date])
-    |> validate_required([:title, :description, :due_date])
+    |> cast(attrs, [:title, :description, :due_date, :status_id, :owner_id])
+    |> validate_required([:title, :description, :due_date, :status_id, :owner_id])
     |> foreign_key_constraint(:owner)
     |> foreign_key_constraint(:status_id)
   end

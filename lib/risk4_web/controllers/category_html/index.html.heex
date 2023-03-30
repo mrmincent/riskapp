@@ -10,7 +10,7 @@
 <.table id="categories" rows={@categories} row_click={&JS.navigate(~p"/categories/#{&1}")}>
   <:col :let={category} label="Name"><%= category.name %></:col>
   <:col :let={category} label="Description"><%= category.description %></:col>
-  <:col :let={category} label="Status"><%= category.status_id %></:col>
+  <:col :let={category} label="Status"><%= category.status.name %></:col>
   <:action :let={category}>
     <div class="sr-only">
       <.link navigate={~p"/categories/#{category}"}>Show</.link>

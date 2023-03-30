@@ -2,7 +2,10 @@ defmodule Risk4Web.UserController do
   use Risk4Web, :controller
 
   alias Risk4.Shared
+  alias Risk4.Repo
   alias Risk4.Shared.User
+
+  import Ecto.Query, only: [from: 2]
 
   def index(conn, _params) do
     users = Shared.list_users()
@@ -11,10 +14,13 @@ defmodule Risk4Web.UserController do
 
   def new(conn, _params) do
     changeset = Shared.change_user(%User{})
-    render(conn, :new, changeset: changeset)
+    statuses = Risk4.Repo.all(Risk4.Shared.Status)
+    users = Risk4.Repo.all(Risk4.Shared.User)
+    render(conn, :new, changeset: changeset, statuses: statuses, users: users)
   end
 
   def create(conn, %{"user" => user_params}) do
+    IO.puts("In create_user_controller")
     case Shared.create_user(user_params) do
       {:ok, user} ->
         conn
@@ -34,7 +40,8 @@ defmodule Risk4Web.UserController do
   def edit(conn, %{"id" => id}) do
     user = Shared.get_user!(id)
     changeset = Shared.change_user(user)
-    render(conn, :edit, user: user, changeset: changeset)
+    users = Repo.all(Risk4.Shared.User)
+    render(conn, :edit, user: user, changeset: changeset, users: users)
   end
 
   def update(conn, %{"id" => id, "user" => user_params}) do

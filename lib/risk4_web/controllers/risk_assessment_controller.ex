@@ -11,7 +11,9 @@ defmodule Risk4Web.RiskAssessmentController do
 
   def new(conn, _params) do
     changeset = Assessment.change_risk_assessment(%RiskAssessment{})
-    render(conn, :new, changeset: changeset)
+    statuses = Risk4.Repo.all(Risk4.Shared.Status) # Fetch the list of statuses
+    users = Risk4.Repo.all(Risk4.Shared.User) # Fetch the list of users
+    render(conn, :new, changeset: changeset, statuses: statuses, users: users)
   end
 
   def create(conn, %{"risk_assessment" => risk_assessment_params}) do
@@ -34,7 +36,9 @@ defmodule Risk4Web.RiskAssessmentController do
   def edit(conn, %{"id" => id}) do
     risk_assessment = Assessment.get_risk_assessment!(id)
     changeset = Assessment.change_risk_assessment(risk_assessment)
-    render(conn, :edit, risk_assessment: risk_assessment, changeset: changeset)
+    statuses = Risk4.Repo.all(Risk4.Shared.Status) # Fetch the list of statuses
+    users = Risk4.Repo.all(Risk4.Shared.User) # Fetch the list of users
+    render(conn, :edit, risk_assessment: risk_assessment, changeset: changeset, statuses: statuses, users: users)
   end
 
   def update(conn, %{"id" => id, "risk_assessment" => risk_assessment_params}) do

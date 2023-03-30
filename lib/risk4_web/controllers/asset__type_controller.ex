@@ -1,8 +1,11 @@
 defmodule Risk4Web.Asset_TypeController do
   use Risk4Web, :controller
 
+  alias Risk4.Repo
   alias Risk4.Asset
   alias Risk4.Asset.Asset_Type
+
+  import Ecto.Query, only: [from: 2]
 
   def index(conn, _params) do
     asset_types = Asset.list_asset_types()
@@ -11,7 +14,8 @@ defmodule Risk4Web.Asset_TypeController do
 
   def new(conn, _params) do
     changeset = Asset.change_asset__type(%Asset_Type{})
-    render(conn, :new, changeset: changeset)
+    statuses = Risk4.Repo.all(Risk4.Shared.Status)
+    render(conn, :new, changeset: changeset, statuses: statuses)
   end
 
   def create(conn, %{"asset__type" => asset__type_params}) do
@@ -34,7 +38,8 @@ defmodule Risk4Web.Asset_TypeController do
   def edit(conn, %{"id" => id}) do
     asset__type = Asset.get_asset__type!(id)
     changeset = Asset.change_asset__type(asset__type)
-    render(conn, :edit, asset__type: asset__type, changeset: changeset)
+    statuses = Risk4.Repo.all(Risk4.Shared.Status)
+    render(conn, :edit, asset__type: asset__type, changeset: changeset, statuses: statuses)
   end
 
   def update(conn, %{"id" => id, "asset__type" => asset__type_params}) do

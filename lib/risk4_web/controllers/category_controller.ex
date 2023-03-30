@@ -24,8 +24,14 @@ defmodule Risk4Web.CategoryController do
   end
 
   def create(conn, %{"category" => category_params}) do
+    IO.puts("in create_category_controller")
     IO.inspect(category_params)
+    categories = Category
+    |> Repo.all()
+    |> Repo.preload(:status)
+
     case Shared.create_category(category_params) do
+
       {:ok, category} ->
         conn
         |> put_flash(:info, "Category created successfully.")

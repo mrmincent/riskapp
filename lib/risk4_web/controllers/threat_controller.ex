@@ -11,7 +11,8 @@ defmodule Risk4Web.ThreatController do
 
   def new(conn, _params) do
     changeset = Assessment.change_threat(%Threat{})
-    render(conn, :new, changeset: changeset)
+    statuses = Risk4.Repo.all(Risk4.Shared.Status)
+    render(conn, :new, changeset: changeset, statuses: statuses)
   end
 
   def create(conn, %{"threat" => threat_params}) do
@@ -34,7 +35,9 @@ defmodule Risk4Web.ThreatController do
   def edit(conn, %{"id" => id}) do
     threat = Assessment.get_threat!(id)
     changeset = Assessment.change_threat(threat)
-    render(conn, :edit, threat: threat, changeset: changeset)
+    statuses = Risk4.Repo.all(Risk4.Shared.Status)
+
+    render(conn, :edit, threat: threat, changeset: changeset, status: statuses)
   end
 
   def update(conn, %{"id" => id, "threat" => threat_params}) do

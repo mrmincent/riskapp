@@ -21,9 +21,9 @@ defmodule Risk4.Shared.User do
   @doc false
   def changeset(user, attrs) do
     user
-    |> cast(attrs, [:fname, :lname, :email, :phone, :level, :avatar])
-    |> validate_required([:fname, :lname, :email, :phone, :level, :avatar])
+    |> cast(attrs, [:fname, :lname, :email, :phone, :level, :avatar, :status_id, :manager_id])
+    |> validate_required([:fname, :lname, :email, :phone, :level, :avatar, :status_id])
     |> foreign_key_constraint(:manager_id, name: :users_manager_id_fkey)
-    |> foreign_key_constraint(:status)
+    |> foreign_key_constraint(:status_id)
   end
 end

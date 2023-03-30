@@ -15,8 +15,8 @@ defmodule Risk4.Assessment.Control do
   @doc false
   def changeset(control, attrs) do
     control
-    |> cast(attrs, [:name, :description])
-    |> validate_required([:name, :description])
+    |> cast(attrs, [:name, :description, :status_id, :owner_id])
+    |> validate_required([:name, :description, :status_id])
     |> foreign_key_constraint(:status_id)
     |> foreign_key_constraint(:user_id)
   end

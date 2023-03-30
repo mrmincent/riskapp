@@ -2,11 +2,13 @@
   <.error :if={@changeset.action}>
     Oops, something went wrong! Please check the errors below.
   </.error>
-  <.input field={f[:fname]} type="text" label="Fname" />
-  <.input field={f[:lname]} type="text" label="Lname" />
+  <.input field={f[:fname]} type="text" label="First name" />
+  <.input field={f[:lname]} type="text" label="Last name" />
   <.input field={f[:email]} type="text" label="Email" />
   <.input field={f[:phone]} type="text" label="Phone" />
   <.input field={f[:level]} type="number" label="Level" />
+  <.input field={f[:status_id]} type="select" options={Enum.map(Risk4.Repo.all(Risk4.Shared.Status), fn status -> {status.name, status.id} end)}  label="Status" />
+      <.input field={f[:manager_id]} type="select" options={Enum.map(Risk4.Repo.all(Risk4.Shared.User), fn user -> {user.email, user.id} end)}  label="Manager"/>
   <.input field={f[:avatar]} type="text" label="Avatar" />
   <:actions>
     <.button>Save User</.button>

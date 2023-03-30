@@ -14,8 +14,8 @@ defmodule Risk4.Asset.Asset_Type do
   @doc false
   def changeset(asset__type, attrs) do
     asset__type
-    |> cast(attrs, [:name, :description])
-    |> validate_required([:name, :description])
+    |> cast(attrs, [:name, :description, :status_id])
+    |> validate_required([:name, :description, :status_id])
     |> foreign_key_constraint(:status_id)
   end
 end

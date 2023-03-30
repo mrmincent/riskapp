@@ -11,7 +11,9 @@ defmodule Risk4Web.ControlController do
 
   def new(conn, _params) do
     changeset = Assessment.change_control(%Control{})
-    render(conn, :new, changeset: changeset)
+    statuses = Risk4.Repo.all(Risk4.Shared.Status) # Fetch the list of statuses
+    users = Risk4.Repo.all(Risk4.Shared.User) # Fetch the list of users
+    render(conn, :new, changeset: changeset, statuses: statuses, users: users)
   end
 
   def create(conn, %{"control" => control_params}) do
@@ -34,7 +36,10 @@ defmodule Risk4Web.ControlController do
   def edit(conn, %{"id" => id}) do
     control = Assessment.get_control!(id)
     changeset = Assessment.change_control(control)
-    render(conn, :edit, control: control, changeset: changeset)
+    statuses = Risk4.Repo.all(Risk4.Shared.Status) # Fetch the list of statuses
+    users = Risk4.Repo.all(Risk4.Shared.User) # Fetch the list of users
+
+    render(conn, :edit, control: control, changeset: changeset, statuses: statuses, users: users)
   end
 
   def update(conn, %{"id" => id, "control" => control_params}) do

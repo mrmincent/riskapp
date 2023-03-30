@@ -16,8 +16,8 @@ defmodule Risk4.Assessment.Threat do
   @doc false
   def changeset(threat, attrs) do
     threat
-    |> cast(attrs, [:name, :description])
-    |> validate_required([:name, :description])
+    |> cast(attrs, [:name, :description, :status_id])
+    |> validate_required([:name, :description, :status_id])
     |> foreign_key_constraint(:status_id)
   end
 end

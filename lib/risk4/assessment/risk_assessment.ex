@@ -30,8 +30,8 @@ defmodule Risk4.Assessment.RiskAssessment do
   @doc false
   def changeset(risk_assessment, attrs) do
     risk_assessment
-    |> cast(attrs, [:name, :description, :start_date, :due_date, :precontrol_impact, :precontrol_likelihood, :precontrol_risk, :postcontrol_impact, :postcontrol_likelihood, :postcontrol_risk, :consequences])
-    |> validate_required([:name, :description, :start_date, :due_date, :precontrol_impact, :precontrol_likelihood, :precontrol_risk, :postcontrol_impact, :postcontrol_likelihood, :postcontrol_risk, :consequences])
+    |> cast(attrs, [:name, :description, :start_date, :due_date, :precontrol_impact, :precontrol_likelihood, :precontrol_risk, :postcontrol_impact, :postcontrol_likelihood, :postcontrol_risk, :consequences, :status_id, :risk_owner_id])
+    |> validate_required([:name, :description, :start_date, :due_date, :precontrol_impact, :precontrol_likelihood, :precontrol_risk, :postcontrol_impact, :postcontrol_likelihood, :postcontrol_risk, :consequences, :status_id, :risk_owner_id])
     |> foreign_key_constraint(:status_id)
   end
 end

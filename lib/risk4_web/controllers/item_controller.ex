@@ -11,7 +11,10 @@ defmodule Risk4Web.ItemController do
 
   def new(conn, _params) do
     changeset = Asset.change_item(%Item{})
-    render(conn, :new, changeset: changeset)
+    statuses = Risk4.Repo.all(Risk4.Shared.Status)
+    categories = Risk4.Repo.all(Risk4.Shared.Category)
+    asset_types = Risk4.Repo.all(Risk4.Asset.Asset_Type)
+    render(conn, :new, changeset: changeset, statuses: statuses, categories: categories, asset_types: asset_types)
   end
 
   def create(conn, %{"item" => item_params}) do
@@ -34,7 +37,10 @@ defmodule Risk4Web.ItemController do
   def edit(conn, %{"id" => id}) do
     item = Asset.get_item!(id)
     changeset = Asset.change_item(item)
-    render(conn, :edit, item: item, changeset: changeset)
+    statuses = Risk4.Repo.all(Risk4.Shared.Status)
+    categories = Risk4.Repo.all(Risk4.Shared.Category)
+    asset_types = Risk4.Repo.all(Risk4.Asset.Asset_Type)
+    render(conn, :edit, item: item, changeset: changeset, statuses: statuses, categories: categories, asset_types: asset_types)
   end
 
   def update(conn, %{"id" => id, "item" => item_params}) do

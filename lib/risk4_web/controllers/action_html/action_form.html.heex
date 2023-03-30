@@ -5,6 +5,9 @@
   <.input field={f[:title]} type="text" label="Title" />
   <.input field={f[:description]} type="text" label="Description" />
   <.input field={f[:due_date]} type="date" label="Due date" />
+  <.input field={f[:status_id]} lable="Status" type="select" options={Enum.map(Risk4.Repo.all(Risk4.Shared.Status), fn status -> {status.name, status.id} end)}  />
+  <.input field={f[:category_id]} lable="Category" type="select" options={Enum.map(Risk4.Repo.all(Risk4.Shared.Category), fn category -> {category.name, category.id} end)} />
+  <.input field={f[:owner_id]} lable="Owner" type="select" options={Enum.map(Risk4.Repo.all(Risk4.Shared.User), fn user -> {user.email, user.id} end)} />
   <:actions>
     <.button>Save Action</.button>
   </:actions>

@@ -15,6 +15,7 @@ defmodule Risk4Web.StatusController do
   end
 
   def create(conn, %{"status" => status_params}) do
+    IO.inspect(status_params)
     case Shared.create_status(status_params) do
       {:ok, status} ->
         conn

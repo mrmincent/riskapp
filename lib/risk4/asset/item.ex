@@ -20,8 +20,8 @@ defmodule Risk4.Asset.Item do
   @doc false
   def changeset(item, attrs) do
     item
-    |> cast(attrs, [:name, :confidentiality, :integrity, :availablity, :value, :justification])
-    |> validate_required([:name, :confidentiality, :integrity, :availablity, :value, :justification])
+    |> cast(attrs, [:name, :confidentiality, :integrity, :availablity, :value, :justification, :status_id, :category_id, :asset_type_id])
+    |> validate_required([:name, :confidentiality, :integrity, :availablity, :value, :justification, :status_id])
     |> foreign_key_constraint(:status_id)
     |> foreign_key_constraint(:asset_type)
     |> foreign_key_constraint(:category)

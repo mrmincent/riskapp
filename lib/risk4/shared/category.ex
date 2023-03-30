@@ -15,9 +15,9 @@ defmodule Risk4.Shared.Category do
     IO.inspect(category)
     IO.inspect(attrs)
     category
-    |> cast(attrs, [:name, :description])
-    |> validate_required([:name, :description, :status])
-    |> foreign_key_constraint(:status)
+    |> cast(attrs, [:name, :description, :status_id])
+    |> validate_required([:name, :description, :status_id])
+    |> foreign_key_constraint(:status_id)
 
 
   end

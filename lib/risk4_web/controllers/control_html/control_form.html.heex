@@ -4,6 +4,9 @@
   </.error>
   <.input field={f[:name]} type="text" label="Name" />
   <.input field={f[:description]} type="text" label="Description" />
+  <.input field={f[:status_id]} label="Status" type="select" options={Enum.map(Risk4.Repo.all(Risk4.Shared.Status), fn status -> {status.name, status.id} end)} />
+  <.input field={f[:status_id]} label="Owner" type="select" options={Enum.map(Risk4.Repo.all(Risk4.Shared.User), fn user -> {user.email, user.id} end)} />
+
   <:actions>
     <.button>Save Control</.button>
   </:actions>
