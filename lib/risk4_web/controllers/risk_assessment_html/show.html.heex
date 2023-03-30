@@ -22,59 +22,6 @@
   <:item title="Consequences"><%= @risk_assessment.consequences %></:item>
 </.list>
 
-<div class="grid grid-cols-7 gap-1" >
-  <div class="col-span-7 items-center justify-center bg-stone-50 shadow-sm rounded-lg flex  h-14 ">Impact</div>
-    <div class="row-span-6 items-center justify-center bg-stone-50 shadow-sm  flex w-25 "> Likelihood </div>
 
-    <div class="w-30 h-10 bg-stone-50 flex items-center justify-center">&nbsp;</div>
-  <div class="flex font-bold text-[0.8125rem] text-zinc-500 items-center justify-center bg-stone-100 shadow-sm rounded-lg-flex h15"> Catastrophic </div>
-  <div class="flex font-bold text-[0.8125rem] text-zinc-500  items-center justify-center bg-stone-100 shadow-sm rounded-lg-flex h15"> Major </div>
-  <div class="flex font-bold text-[0.8125rem] text-zinc-500 items-center justify-center bg-stone-100 shadow-sm rounded-lg-flex h15"> Moderate </div>
-  <div class="flex font-bold text-[0.8125rem] text-zinc-500  items-center justify-center bg-stone-100 shadow-sm rounded-lg-flex h15"> Minor </div>
-  <div class="flex font-bold text-[0.8125rem] text-zinc-500  items-center justify-center bg-stone-100 shadow-sm rounded-lg-flex h15"> Insignificant </div>
-
-
-  <!-- Row 1 -->
-
-    <div class=" font-bold text-[0.8125rem] text-zinc-500  w-30 h-10  flex items-center justify-center bg-stone-50 shadow-sm"> Almost Certain </div>
-    <div class="w-30 h-10  text-[0.8125rem] text-zinc-100 flex items-center justify-center bg-red-700 hover:bg-red-900 shadow-lg">Extreme (25)</div>
-    <div class="w-30 h-10  text-[0.8125rem] text-zinc-100  flex items-center justify-center bg-red-700 hover:bg-red-800 shadow-lg">Extreme (20) </div>
-    <div class="w-30 h-10  text-[0.8125rem] text-zinc-100  flex items-center justify-center bg-red-700 hover:bg-red-800 shadow-lg">Extreme (15) </div>
-    <div class="w-30 h-10 text-[0.8125rem] text-zinc-500  flex items-center justify-center bg-orange-500 hover:bg-orange-400 shadow-lg">High (10) </div>
-    <div class="w-30 h-10 text-[0.8125rem] text-zinc-500  flex items-center justify-center bg-yellow-400 hover:bg-yellow-500 shadow-lg">Moderate (5) </div>
-
-    <!-- Row 2 -->
-    <div class=" font-bold text-[0.8125rem] text-zinc-500  w-30 h-10  flex items-center justify-center bg-stone-50 shadow-sm"> Likely </div>
-    <div class="w-30 h-10 font-semi-bold text-[0.8125rem] text-zinc-100  flex items-center justify-center bg-red-700 hover:bg-red-800 shadow-lg">Extreme (20)</div>
-    <div class="w-30 h-10 font-semi-bold text-[0.8125rem] text-zinc-100  flex items-center justify-center bg-red-700 hover:bg-red-800 shadow-lg">Extreme (16) </div>
-    <div class="w-30 h-10 font-semi-bold text-[0.8125rem] text-zinc-500  flex items-center justify-center bg-orange-500  hover:bg-orange-400 shadow-lg">High (12) </div>
-    <div class="w-30 h-10 font-semi-bold text-[0.8125rem] text-zinc-500  flex items-center justify-center bg-orange-500 hover:bg-orange-400 shadow-lg">High (8) </div>
-    <div class="w-30 h-10 font-semi-bold text-[0.8125rem] text-zinc-500  flex items-center justify-center bg-yellow-400 hover:bg-yellow-500 shadow-lg">Moderate (4) </div>
-
-    <!-- Row 3 -->
-    <div class=" font-bold text-[0.8125rem] text-zinc-500  w-30 h-10  flex items-center justify-center bg-stone-50 shadow-sm"> Possible </div>
-    <div class="w-30 h-10 font-semi-bold text-[0.8125rem] text-zinc-100  flex items-center justify-center bg-red-700 hover:bg-red-800 shadow-lg">Extreme (15)</div>
-    <div class="w-30 h-10 font-semi-bold text-[0.8125rem] text-zinc-500  flex items-center justify-center bg-orange-500 hover:bg-orange-400 shadow-lg">High (12) </div>
-    <div class="w-30 h-10 font-semi-bold text-[0.8125rem] text-zinc-500  flex items-center justify-center bg-orange-500 hover:bg-orange-400 shadow-lg">High (9) </div>
-    <div class="w-30 h-10 font-semi-bold text-[0.8125rem] text-zinc-500  flex items-center justify-center bg-yellow-400 hover:bg-yellow-500 shadow-lg">Moderate (6) </div>
-    <div class="w-30 h-10 font-semi-bold text-[0.8125rem] text-zinc-500  flex items-center justify-center bg-green-300 hover:bg-green-200 shadow-lg">Low (3) </div>
-
-    <!-- Row 4 -->
-    <div class=" font-bold text-[0.8125rem] text-zinc-500  w-30 h-10  flex items-center justify-center bg-stone-50 shadow-sm"> Unlikely </div>
-    <div class="w-30 h-10 font-semi-bold text-[0.8125rem] text-zinc-500  flex items-center justify-center bg-orange-500  hover:bg-orange-400 shadow-lg">High (10)</div>
-    <div class="w-30 h-10 font-semi-bold text-[0.8125rem] text-zinc-500  flex items-center justify-center bg-orange-500  hover:bg-orange-400 shadow-lg">High (8) </div>
-    <div class="w-30 h-10 font-semi-bold text-[0.8125rem] text-zinc-500  flex items-center justify-center bg-yellow-400 hover:bg-yellow-500 shadow-lg">Moderate (6) </div>
-    <div class="w-30 h-10 font-semi-bold text-[0.8125rem] text-zinc-500  flex items-center justify-center bg-yellow-400 hover:bg-yellow-500 shadow-lg">Moderate (4) </div>
-    <div class="w-30 h-10 font-semi-bold text-[0.8125rem] text-zinc-500  flex items-center justify-center bg-green-300 hover:bg-green-200 shadow-lg">Low (2) </div>
-
-    <!-- Row 5 -->
-    <div class=" font-bold text-[0.8125rem] text-zinc-500  w-30 h-10  flex items-center justify-center bg-stone-50 shadow-sm"> Rare </div>
-    <div class="w-30 h-10 font-semi-bold text-[0.8125rem] text-zinc-500  flex items-center justify-center bg-yellow-400 hover:bg-yellow-500 shadow-lg">Moderate (5)</div>
-    <div class="w-30 h-10 font-semi-bold text-[0.8125rem] text-zinc-500  flex items-center justify-center bg-yellow-400 hover:bg-yellow-500 shadow-lg">Moderate (4) </div>
-    <div class="w-30 h-10 font-semi-bold text-[0.8125rem] text-zinc-500  flex items-center justify-center bg-green-300 hover:bg-green-200 shadow-lg">Low (3) </div>
-    <div class="w-30 h-10 font-semi-bold text-[0.8125rem] text-zinc-500  flex items-center justify-center bg-green-300 hover:bg-green-200 shadow-lg">Low (2) </div>
-    <div class="w-30 h-10 font-semi-bold text-[0.8125rem] text-zinc-500  flex items-center justify-center bg-green-300 hover:bg-green-200 shadow-lg">Low (1) </div>
-
-</div>
 
 <.back navigate={~p"/riskassessments"}>Back to riskassessments</.back>
