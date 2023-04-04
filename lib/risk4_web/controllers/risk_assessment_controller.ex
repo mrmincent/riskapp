@@ -30,12 +30,15 @@ defmodule Risk4Web.RiskAssessmentController do
 
   def show(conn, %{"id" => id}) do
     risk_assessment = Assessment.get_risk_assessment!(id)
+    |> Risk4.Repo.preload(:threats)
     render(conn, :show, risk_assessment: risk_assessment)
   end
 
   def edit(conn, %{"id" => id}) do
     risk_assessment = Assessment.get_risk_assessment!(id)
+    |> Risk4.Repo.preload(:threats)
     changeset = Assessment.change_risk_assessment(risk_assessment)
+    IO.inspect(changeset)
     statuses = Risk4.Repo.all(Risk4.Shared.Status) # Fetch the list of statuses
     users = Risk4.Repo.all(Risk4.Shared.User) # Fetch the list of users
     render(conn, :edit, risk_assessment: risk_assessment, changeset: changeset, statuses: statuses, users: users)

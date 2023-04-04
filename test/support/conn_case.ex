@@ -35,4 +35,30 @@ defmodule Risk4Web.ConnCase do
     Risk4.DataCase.setup_sandbox(tags)
     {:ok, conn: Phoenix.ConnTest.build_conn()}
   end
+
+  @doc """
+  Setup helper that registers and logs in logins.
+
+      setup :register_and_log_in_login
+
+  It stores an updated connection and a registered login in the
+  test context.
+  """
+  def register_and_log_in_login(%{conn: conn}) do
+    login = Risk4.AccountsFixtures.login_fixture()
+    %{conn: log_in_login(conn, login), login: login}
+  end
+
+  @doc """
+  Logs the given `login` into the `conn`.
+
+  It returns an updated `conn`.
+  """
+  def log_in_login(conn, login) do
+    token = Risk4.Accounts.generate_login_session_token(login)
+
+    conn
+    |> Phoenix.ConnTest.init_test_session(%{})
+    |> Plug.Conn.put_session(:login_token, token)
+  end
 end

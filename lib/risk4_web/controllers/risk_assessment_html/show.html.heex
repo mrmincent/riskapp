@@ -22,6 +22,11 @@
   <:item title="Consequences"><%= @risk_assessment.consequences %></:item>
 </.list>
 
+<.table id="threats" rows={@threats} row_click={&JS.navigate(~p"/threats/#{&1}")}>
+  <:col :let={threat} label="ID"><%= threat.id %></:col>
+  <:col :let={threat} label="Name"><%= threat.name %></:col>
+  <:col :let={threat} label="Description"><%= threat.description %></:col>
+</.table>
 
 
 <.back navigate={~p"/riskassessments"}>Back to riskassessments</.back>

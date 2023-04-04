@@ -4,7 +4,7 @@ defmodule Risk4.Assessment.AssessmentThreat do
 
   schema "assessment_threats" do
 
-    belongs_to :risk_assessment, Risk4.Assessment.RiskAssessment
+    belongs_to :riskassessment, Risk4.Assessment.RiskAssessment
     belongs_to :threat, Risk4.Assessment.Threat
 
     timestamps()

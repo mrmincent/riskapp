@@ -16,7 +16,7 @@ defmodule Risk4.Assessment.RiskAssessment do
     field :start_date, :date
     belongs_to :risk_owner, Risk4.Shared.User
     belongs_to :status, Risk4.Shared.Status
-    many_to_many :threats, Risk4.Assessment.Threat, join_through: Risk4.Assessment.AssessmentThreat
+    many_to_many :threats, Risk4.Assessment.Threat, join_through: Risk4.Assessment.AssessmentThreat, join_keys: [riskassessment_id: :id, threat_id: :id]
     many_to_many :vulnerabilities, Risk4.Assessment.Vulnerability, join_through: Risk4.Assessment.AssessmentVulnerability
     many_to_many :controls, Risk4.Assessment.Control, join_through: Risk4.Assessment.AssessmentControl
     many_to_many :items, Risk4.Asset.Item, join_through: Risk4.Assessment.AssessmentItem

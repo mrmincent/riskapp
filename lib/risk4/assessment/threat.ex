@@ -6,7 +6,7 @@ defmodule Risk4.Assessment.Threat do
     field :description, :string
     field :name, :string
     belongs_to :status, Risk4.Shared.Status
-    many_to_many :riskassessments, Risk4.Assessment.RiskAssessment, join_through: Risk4.Assessment.AssessmentThreat
+    many_to_many :riskassessments, Risk4.Assessment.RiskAssessment, join_through: Risk4.Assessment.AssessmentThreat, join_keys: [threat_id: :id, riskassessment_id: :id]
 
 
 
