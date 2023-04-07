@@ -15,6 +15,13 @@
   <.input field={f[:postcontrol_likelihood]} type="number" label="Postcontrol likelihood" />
   <.input field={f[:postcontrol_risk]} type="number" label="Postcontrol risk" />
   <.input field={f[:consequences]} type="text" label="Consequences" />
+  <.input field={f[:threat_ids]} type="select"
+          multiple={true}
+          options={Enum.map(Risk4.Repo.all(Risk4.Assessment.Threat),
+          fn threat -> {threat.name, threat.id} end)}
+    value={Enum.map(@threats, & &1.id)}
+    label="Threats" />
+
 
 
   <:actions>
@@ -23,9 +30,15 @@
 </.simple_form>
 
 <.table id="threats" rows={@threats} row_click={&JS.navigate(~p"/threats/#{&1}")}>
-  <:col :let={status} label="ID"><%= status.id %></:col>
-  <:col :let={status} label="Name"><%= status.name %></:col>
-  <:col :let={status} label="Description"><%= status.description %></:col>
+  <:col :let={threat} label="ID"><%= threat.id %></:col>
+  <:col :let={threat} label="Name"><%= threat.name %></:col>
+  <:col :let={threat} label="Description"><%= threat.description %></:col>
+</.table>
+
+<.table id="threatlists" rows={@threatlist} row_click={&JS.navigate(~p"/threats/#{&1}")}>
+  <:col :let={threat} label="ID"><%= threat.id %></:col>
+  <:col :let={threat} label="Name"><%= threat.name %></:col>
+  <:col :let={threat} label="Description"><%= threat.description %></:col>
 </.table>
 
 

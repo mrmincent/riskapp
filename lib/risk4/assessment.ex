@@ -452,9 +452,24 @@ defmodule Risk4.Assessment do
 
   """
   def update_risk_assessment(%RiskAssessment{} = risk_assessment, attrs) do
-    risk_assessment
-    |> RiskAssessment.changeset(attrs)
-    |> Repo.update()
+    threats = Map.get(attrs, "threat_ids", [])
+    |> Enum.map(&Repo.get(Threat, &1))
+    |> Enum.reject(&is_nil/1)
+    IO.puts("############ update risk assessment #########")
+    IO.inspect(threats)
+    attrs = Map.put(attrs, "threats", threats)
+    IO.inspect(attrs)
+    #risk_assessment
+    #|> RiskAssessment.changeset(attrs)
+    #|> Repo.update()
+
+    changeset = change_risk_assessment(risk_assessment, attrs)
+    IO.inspect(changeset)
+
+    case Repo.update(changeset) do
+      {:ok, risk_assessment} -> {:ok, Repo.preload(risk_assessment, :threats)}
+      {:error, _} = error -> error
+    end
   end
 
   @doc """

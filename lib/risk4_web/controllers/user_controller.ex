@@ -5,7 +5,7 @@ defmodule Risk4Web.UserController do
   alias Risk4.Repo
   alias Risk4.Shared.User
 
-  import Ecto.Query, only: [from: 2]
+  #import Ecto.Query, only: [from: 2]
 
   def index(conn, _params) do
     users = Shared.list_users()
