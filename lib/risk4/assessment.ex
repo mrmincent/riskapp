@@ -456,9 +456,7 @@ defmodule Risk4.Assessment do
     |> Enum.map(&Repo.get(Threat, &1))
     |> Enum.reject(&is_nil/1)
     IO.puts("############ update risk assessment #########")
-    IO.inspect(threats)
     attrs = Map.put(attrs, "threats", threats)
-    IO.inspect(attrs)
     #risk_assessment
     #|> RiskAssessment.changeset(attrs)
     #|> Repo.update()
