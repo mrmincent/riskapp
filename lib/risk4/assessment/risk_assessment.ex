@@ -14,6 +14,9 @@ defmodule Risk4.Assessment.RiskAssessment do
     field :precontrol_likelihood, :integer
     field :precontrol_risk, :integer
     field :start_date, :date
+    field :scope, :string
+    field :assumptions, :string
+    field :constraints, :string
     belongs_to :risk_owner, Risk4.Shared.User
     belongs_to :status, Risk4.Shared.Status
     many_to_many :threats, Risk4.Assessment.Threat, join_through: Risk4.Assessment.AssessmentThreat, join_keys: [riskassessment_id: :id, threat_id: :id], on_replace: :delete
@@ -35,7 +38,7 @@ defmodule Risk4.Assessment.RiskAssessment do
     vulnerabilities = Map.get(attrs, "vulnerabilities", [])
 
     risk_assessment
-    |> cast(attrs, [:name, :description, :start_date, :due_date, :precontrol_impact, :precontrol_likelihood, :precontrol_risk, :postcontrol_impact, :postcontrol_likelihood, :postcontrol_risk, :consequences, :status_id, :risk_owner_id])
+    |> cast(attrs, [:name, :description, :start_date, :due_date, :precontrol_impact, :precontrol_likelihood, :precontrol_risk, :postcontrol_impact, :postcontrol_likelihood, :postcontrol_risk, :consequences, :status_id, :risk_owner_id, :scope, :assumptions, :constraints])
     |> validate_required([:name, :description, :start_date, :due_date, :precontrol_impact, :precontrol_likelihood, :precontrol_risk, :postcontrol_impact, :postcontrol_likelihood, :postcontrol_risk, :consequences, :status_id, :risk_owner_id])
     |> foreign_key_constraint(:status_id)
     |> put_assoc(:threats, threats)

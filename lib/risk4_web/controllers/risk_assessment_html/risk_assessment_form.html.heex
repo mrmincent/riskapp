@@ -1,13 +1,38 @@
 <.simple_form :let={f} for={@changeset} action={@action} >
    <.error :if={@changeset.action}>
     Oops, something went wrong! Please check the errors below.
-  </.error>
+   </.error>
+
   <.input field={f[:name]} type="text" label="Name" />
   <.input field={f[:status_id]} type="select" label="Status" options={Enum.map(Risk4.Repo.all(Risk4.Shared.Status), fn status -> {status.name, status.id} end)} />
-    <.input field={f[:risk_owner_id]} type="select" label="Risk Owner" options={Enum.map(Risk4.Repo.all(Risk4.Shared.User), fn user -> {user.email, user.id} end)} />
-  <.input field={f[:description]} type="text" label="Description" />
-  <.input field={f[:start_date]} type="date" label="Start date" />
-  <.input field={f[:due_date]} type="date" label="Due date" />
+    <.input field={f[:risk_owner_id]} type="select" label="Risk Owner"
+            options={Enum.map(Risk4.Repo.all(Risk4.Shared.User), fn user -> {user.fname <> " " <> user.lname <> " (" <> user.email <> ")", user.id} end)} />
+                <.input field={f[:start_date]} type="date" label="Start date" />
+                <.input field={f[:due_date]} type="date" label="Due date" />
+                <hr>
+
+                <.input field={f[:description]} type="textarea" label="Description" placeholder="Identify the purpose of this risk assessment"/>
+                <.input field={f[:scope]} type="textarea" label="Scope" placeholder="Define what is in and out of scope of this risk assessment"/>
+                <.input field={f[:assumptions]} type="textarea" label="Assumptions" placeholder="List any assumptions"/>
+                <.input field={f[:constraints]} type="textarea" label="Constraints" placeholder="List any constraints"/>
+                <hr>
+
+  <.input field={f[:threat_ids]} type="select"
+          multiple={true}
+          options={Enum.map(Risk4.Repo.all(Risk4.Assessment.Threat),
+          fn threat -> {threat.name, threat.id} end)}
+    value={Enum.map(@threats, & &1.id)}
+    label="Threats" />
+
+  <.input field={f[:vulnerability_ids]} type="select"
+          multiple={true}
+          options={Enum.map(Risk4.Repo.all(Risk4.Assessment.Vulnerability),
+          fn vulnerability -> {vulnerability.name, vulnerability.id} end)}
+    value={Enum.map(@vulnerabilities, & &1.id)}
+    label="Vulnerabilities" />
+
+
+
   <div class="hidden">
   <.input field={f[:precontrol_impact]} type="number" label="Precontrol impact" />
   <.input field={f[:precontrol_likelihood]} type="number" label="Precontrol likelihood" />
@@ -17,12 +42,6 @@
   <.input field={f[:postcontrol_risk]} type="number" label="Postcontrol risk" />
   </div>
   <.input field={f[:consequences]} type="text" label="Consequences" />
-  <.input field={f[:threat_ids]} type="select"
-          multiple={true}
-          options={Enum.map(Risk4.Repo.all(Risk4.Assessment.Threat),
-          fn threat -> {threat.name, threat.id} end)}
-    value={Enum.map(@threats, & &1.id)}
-    label="Threats" />
 
 
     <.input field={f[:control_ids]} type="select"
@@ -32,12 +51,6 @@
     value={Enum.map(@controls, & &1.id)}
     label="Controls" />
 
-  <.input field={f[:vulnerability_ids]} type="select"
-          multiple={true}
-          options={Enum.map(Risk4.Repo.all(Risk4.Assessment.Vulnerability),
-          fn vulnerability -> {vulnerability.name, vulnerability.id} end)}
-    value={Enum.map(@vulnerabilities, & &1.id)}
-    label="Vulnerabilities" />
 
 
 
@@ -69,8 +82,6 @@
   <:col :let={threat} label="Name"><%= threat.name %></:col>
   <:col :let={threat} label="Description"><%= threat.description %></:col>
 </.table>
-
-
 
 <div class="grid grid-cols-7 gap-1" id="pre_risk_matrix">
   <div class="col-span-7 items-center justify-center bg-stone-50 shadow-sm rounded-lg flex  h-14 ">Impact</div>
@@ -126,6 +137,8 @@
     <button id="btn_pre_1_1"  onclick="set_risk_score('pre', 1, 1)" class="w-30 h-10 font-semi-bold text-[0.8125rem] text-zinc-500  flex items-center justify-center bg-green-300 hover:bg-green-200 shadow-lg">Low (1) </button>
 
 </div>
+
+
 <br>
 
 <div class="grid grid-cols-7 gap-1" id="post_risk_matrix">
