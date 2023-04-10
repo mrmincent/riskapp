@@ -5,7 +5,9 @@ defmodule Risk4.Assessment.Control do
   schema "controls" do
     field :description, :string
     field :name, :string
-    many_to_many :riskassessments, Risk4.Assessment.RiskAssessment, join_through: Risk4.Assessment.AssessmentControl
+    many_to_many :riskassessments, Risk4.Assessment.RiskAssessment,
+      join_through: Risk4.Assessment.AssessmentControl, join_keys: [control_id: :id, riskassessment_id: :id]
+
     belongs_to :status, Risk4.Shared.Status
     belongs_to :owner, Risk4.Shared.User
 

@@ -28,5 +28,17 @@
   <:col :let={threat} label="Description"><%= threat.description %></:col>
 </.table>
 
+<.table id="controls" rows={@controls} row_click={&JS.navigate(~p"/controls/#{&1}")}>
+  <:col :let={control} label="ID"><%= control.id %></:col>
+  <:col :let={control} label="Name"><%= control.name %></:col>
+  <:col :let={control} label="Description"><%= control.description %></:col>
+</.table>
+
+<.table id="vulnerabilities" rows={@vulnerabilities} row_click={&JS.navigate(~p"/vulnerabilities/#{&1}")}>
+  <:col :let={vulnerability} label="ID"><%= vulnerability.id %></:col>
+  <:col :let={vulnerability} label="Name"><%= vulnerability.name %></:col>
+  <:col :let={vulnerability} label="Description"><%= vulnerability.description %></:col>
+</.table>
+
 
 <.back navigate={~p"/riskassessments"}>Back to riskassessments</.back>

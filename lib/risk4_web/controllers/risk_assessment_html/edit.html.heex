@@ -3,6 +3,12 @@
   <:subtitle>Use this form to manage risk_assessment records in your database.</:subtitle>
 </.header>
 
-<.risk_assessment_form changeset={@changeset} action={~p"/riskassessments/#{@risk_assessment}"} threats={@threats} threatlist={@threatlist} />
+<.risk_assessment_form changeset={@changeset}
+                       action={~p"/riskassessments/#{@risk_assessment}"}
+                       threats={@threats} threatlist={@threatlist}
+                       controls={@controls} controllist={@controllist}
+                       vulnerabilities={@vulnerabilities} vulnerabilitylist={@vulnerabilitylist}
+
+                       />
 
 <.back navigate={~p"/riskassessments"}>Back to riskassessments</.back>

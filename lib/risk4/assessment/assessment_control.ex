@@ -4,8 +4,8 @@ defmodule Risk4.Assessment.AssessmentControl do
 
   schema "assessment_controls" do
 
-    field :riskassessment_id, :id
-    field :control_id, :id
+    belongs_to :riskassessment, Risk4.Assessment.RiskAssessment
+    belongs_to :control, Risk4.Assessment.Control
 
     timestamps()
   end
@@ -15,5 +15,7 @@ defmodule Risk4.Assessment.AssessmentControl do
     assessment_control
     |> cast(attrs, [])
     |> validate_required([])
+    |> foreign_key_constraint(:riskassessment_id)
+    |> foreign_key_constraint(:control_id)
   end
 end
