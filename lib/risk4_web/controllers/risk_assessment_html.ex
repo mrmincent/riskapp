@@ -8,6 +8,14 @@ defmodule Risk4Web.RiskAssessmentHTML do
   """
   attr :changeset, Ecto.Changeset, required: true
   attr :action, :string, required: true
+  attr :threats, :any, default: []
+  attr :threatlist, :any, default: []
+  attr :controls, :any, default: []
+  attr :controllist, :any, default: []
+  attr :vulnerabilities, :any, default: []
+  attr :vulnerabilitylist, :any, default: []
+  attr :items, :any, default: []
+  attr :itemslist, :any, default: []
 
   def risk_assessment_form(assigns)
 end

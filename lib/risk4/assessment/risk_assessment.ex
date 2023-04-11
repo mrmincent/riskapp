@@ -34,6 +34,7 @@ defmodule Risk4.Assessment.RiskAssessment do
   def changeset(risk_assessment, attrs) do
 
     threats = Map.get(attrs, "threats", [])
+    items = Map.get(attrs, "items", [])
     controls = Map.get(attrs, "controls", [])
     vulnerabilities = Map.get(attrs, "vulnerabilities", [])
 
@@ -43,6 +44,7 @@ defmodule Risk4.Assessment.RiskAssessment do
     |> foreign_key_constraint(:status_id)
     |> put_assoc(:threats, threats)
     |> put_assoc(:controls, controls)
+    |> put_assoc(:items, items)
     |> put_assoc(:vulnerabilities, vulnerabilities)
   end
 end

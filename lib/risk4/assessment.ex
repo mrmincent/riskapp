@@ -7,6 +7,7 @@ defmodule Risk4.Assessment do
   alias Risk4.Repo
 
   alias Risk4.Assessment.Action
+  alias Risk4.Asset.Item
 
   @doc """
   Returns the list of actions.
@@ -452,6 +453,11 @@ defmodule Risk4.Assessment do
 
   """
   def update_risk_assessment(%RiskAssessment{} = risk_assessment, attrs) do
+    IO.inspect(attrs)
+    items = Map.get(attrs, "item_ids", [])
+    |> Enum.map(&Repo.get(Item, &1))
+    |> Enum.reject(&is_nil/1)
+
     threats = Map.get(attrs, "threat_ids", [])
     |> Enum.map(&Repo.get(Threat, &1))
     |> Enum.reject(&is_nil/1)
@@ -465,6 +471,7 @@ defmodule Risk4.Assessment do
     |> Enum.reject(&is_nil/1)
 
     IO.puts("############ update risk assessment #########")
+    attrs = Map.put(attrs, "items", items)
     attrs = Map.put(attrs, "threats", threats)
     attrs = Map.put(attrs, "controls", controls)
     attrs = Map.put(attrs, "vulnerabilities", vulnerabilities)
@@ -476,7 +483,7 @@ defmodule Risk4.Assessment do
     IO.inspect(changeset)
 
     case Repo.update(changeset) do
-      {:ok, risk_assessment} -> {:ok, Repo.preload(risk_assessment, [:threats, :controls, :vulnerabilities])}
+      {:ok, risk_assessment} -> {:ok, Repo.preload(risk_assessment, [:threats, :controls, :vulnerabilities, :items])}
       {:error, _} = error -> error
     end
   end

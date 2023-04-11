@@ -12,7 +12,8 @@ defmodule Risk4.Asset.Item do
     belongs_to :status, Risk4.Shared.Status
     belongs_to :asset_type, Risk4.Asset.Asset_Type
     belongs_to :category, Risk4.Shared.Category
-    many_to_many :riskassessments, Risk4.Assessment.RiskAssessment, join_through: Risk4.Assessment.AssessmentItem
+    many_to_many :riskassessments, Risk4.Assessment.RiskAssessment,
+      join_through: Risk4.Assessment.AssessmentItem, join_keys: [item_id: :id, riskassessment_id: :id]
 
     timestamps()
   end

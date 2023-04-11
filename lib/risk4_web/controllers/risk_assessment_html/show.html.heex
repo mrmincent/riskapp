@@ -22,6 +22,17 @@
   <:item title="Consequences"><%= @risk_assessment.consequences %></:item>
 </.list>
 
+
+<.table id="items" rows={@items} row_click={&JS.navigate(~p"/items/#{&1}")}>
+  <:col :let={item} label="ID"><%= item.id %></:col>
+  <:col :let={item} label="Name"><%= item.name %></:col>
+  <:col :let={item} label="Availability"><%= item.availablity %></:col>
+  <:col :let={item} label="Confidentiality"><%= item.confidentiality %></:col>
+  <:col :let={item} label="Integrity"><%= item.integrity %></:col>
+  <:col :let={item} label="Value"><%= item.value %></:col>
+</.table>
+
+
 <.table id="threats" rows={@threats} row_click={&JS.navigate(~p"/threats/#{&1}")}>
   <:col :let={threat} label="ID"><%= threat.id %></:col>
   <:col :let={threat} label="Name"><%= threat.name %></:col>
