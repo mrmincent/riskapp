@@ -4,6 +4,9 @@ defmodule Risk4Web.PageController do
   def home(conn, _params) do
     # The home page is often custom made,
     # so skip the default app layout.
-    render(conn, :home, layout: false)
+
+
+    risk_assessments = Risk4.Assessment.list_active_riskassessments()
+    render(conn, :home, riskassessments: risk_assessments)
   end
 end

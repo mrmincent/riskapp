@@ -406,6 +406,19 @@ defmodule Risk4.Assessment do
     Repo.all(RiskAssessment)
   end
 
+  def list_active_riskassessments  do
+    query = from ra in Risk4.Assessment.RiskAssessment,
+      join: stat in Risk4.Shared.Status,
+      join: user in Risk4.Shared.User,
+      on: ra.status_id == stat.id,
+      where: stat.name == "Active" and ra.risk_owner_id == user.id
+
+
+    Repo.all(query)
+    |> Risk4.Repo.preload([:status, :risk_owner])
+  end
+
+
   @doc """
   Gets a single risk_assessment.
 
