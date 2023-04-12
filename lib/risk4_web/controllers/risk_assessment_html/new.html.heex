@@ -5,10 +5,8 @@
 
 <.risk_assessment_form changeset={@changeset}
                        action={~p"/riskassessments"}
-                       threats={[]} threatlist={@threatlist}
-                       controls={[]} controllist={@controllist}
-                       vulnerabilities={[]} vulnerabilitylist={@vulnerabilitylist}
-                       items={[]} itemslist={@itemslist}
+                       displaymtx="{false}"
+
                        />
 
 <.back navigate={~p"/riskassessments"}>Back to riskassessments</.back>

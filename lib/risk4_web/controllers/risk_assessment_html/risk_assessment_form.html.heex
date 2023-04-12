@@ -1,7 +1,11 @@
+<% @displaymtx %>
+
 <.simple_form :let={f} for={@changeset} action={@action} >
    <.error :if={@changeset.action}>
     Oops, something went wrong! Please check the errors below.
    </.error>
+
+
 
   <.input field={f[:name]} type="text" label="Name" />
   <.input field={f[:status_id]} type="select" label="Status" options={Enum.map(Risk4.Repo.all(Risk4.Shared.Status), fn status -> {status.name, status.id} end)} />
@@ -16,28 +20,29 @@
                 <.input field={f[:assumptions]} type="textarea" label="Assumptions" placeholder="List any assumptions"/>
                 <.input field={f[:constraints]} type="textarea" label="Constraints" placeholder="List any constraints"/>
                 <hr>
+                <%= if @displaymtx == true do %>
 
-  <.input field={f[:item_ids]} type="select"
-          multiple={true}
-          options={Enum.map(Risk4.Repo.all(Risk4.Asset.Item),
-          fn item -> {item.name, item.id} end)}
-    value={Enum.map(@items, & &1.id)}
-    label="Assets" />
+                <.input field={f[:item_ids]} type="select"
+                        multiple={true}
+                        options={Enum.map(Risk4.Repo.all(Risk4.Asset.Item),
+                        fn item -> {item.name, item.id} end)}
+                  value={Enum.map(@items, & &1.id)}
+                  label="Assets" />
 
 
-  <.input field={f[:threat_ids]} type="select"
-          multiple={true}
-          options={Enum.map(Risk4.Repo.all(Risk4.Assessment.Threat),
-          fn threat -> {threat.name, threat.id} end)}
-    value={Enum.map(@threats, & &1.id)}
-    label="Threats" />
+                  <.input field={f[:threat_ids]} type="select"
+                          multiple={true}
+                          options={Enum.map(Risk4.Repo.all(Risk4.Assessment.Threat),
+                          fn threat -> {threat.name, threat.id} end)}
+                    value={Enum.map(@threats, & &1.id)}
+                    label="Threats" />
 
-  <.input field={f[:vulnerability_ids]} type="select"
-          multiple={true}
-          options={Enum.map(Risk4.Repo.all(Risk4.Assessment.Vulnerability),
-          fn vulnerability -> {vulnerability.name, vulnerability.id} end)}
-    value={Enum.map(@vulnerabilities, & &1.id)}
-    label="Vulnerabilities" />
+                    <.input field={f[:vulnerability_ids]} type="select"
+                            multiple={true}
+                            options={Enum.map(Risk4.Repo.all(Risk4.Assessment.Vulnerability),
+                            fn vulnerability -> {vulnerability.name, vulnerability.id} end)}
+                      value={Enum.map(@vulnerabilities, & &1.id)}
+                      label="Vulnerabilities" />
 
 
 
@@ -49,8 +54,6 @@
   <.input field={f[:postcontrol_likelihood]} type="number" label="Postcontrol likelihood" />
   <.input field={f[:postcontrol_risk]} type="number" label="Postcontrol risk" />
   </div>
-  <.input field={f[:consequences]} type="text" label="Consequences" />
-
 
     <.input field={f[:control_ids]} type="select"
           multiple={true}
@@ -58,10 +61,130 @@
           fn control -> {control.name, control.id} end)}
     value={Enum.map(@controls, & &1.id)}
     label="Controls" />
+<hr>
+
+      <div>
+        <h4 id="pre_control_header" class="capitalize text-md font-semibold leading-8 text-zinc-800">Pre-Control Risk Assessment
+
+        </h4>
+        <div class="grid grid-cols-7 gap-1" id="pre_risk_matrix">
+  <div class="col-span-7 items-center justify-center bg-stone-50 shadow-sm rounded-lg flex  h-14 ">Impact</div>
+    <div class="row-span-6 items-center justify-center bg-stone-50 shadow-sm  flex w-25 "> Likelihood </div>
+
+    <div class="w-30 h-10 bg-stone-50 flex items-center justify-center">&nbsp;</div>
+  <div class="flex font-bold text-[0.8125rem] text-zinc-500 items-center justify-center bg-stone-100 shadow-sm rounded-lg-flex h15"> Catastrophic </div>
+  <div class="flex font-bold text-[0.8125rem] text-zinc-500  items-center justify-center bg-stone-100 shadow-sm rounded-lg-flex h15"> Major </div>
+  <div class="flex font-bold text-[0.8125rem] text-zinc-500 items-center justify-center bg-stone-100 shadow-sm rounded-lg-flex h15"> Moderate </div>
+  <div class="flex font-bold text-[0.8125rem] text-zinc-500  items-center justify-center bg-stone-100 shadow-sm rounded-lg-flex h15"> Minor </div>
+  <div class="flex font-bold text-[0.8125rem] text-zinc-500  items-center justify-center bg-stone-100 shadow-sm rounded-lg-flex h15"> Insignificant </div>
 
 
+  <!-- Row 1 -->
+
+    <div class=" font-bold text-[0.8125rem] text-zinc-500  w-30 h-10  flex items-center justify-center bg-stone-50 shadow-sm"> Almost Certain </div>
+    <button type="button" id="btn_pre_5_5" onclick="set_risk_score('pre', 5, 5)" class="w-30 h-10  text-[0.8125rem] text-zinc-100 flex items-center justify-center bg-red-700 hover:bg-red-900 shadow-lg">Extreme (25)</button>
+    <button type="button" id="btn_pre_5_4" onclick="set_risk_score('pre', 5, 4)" class="w-30 h-10  text-[0.8125rem] text-zinc-100  flex items-center justify-center bg-red-700 hover:bg-red-800 shadow-lg">Extreme (20) </button>
+    <button type="button" id="btn_pre_5_3" onclick="set_risk_score('pre', 5, 3)" class="w-30 h-10  text-[0.8125rem] text-zinc-100  flex items-center justify-center bg-red-700 hover:bg-red-800 shadow-lg">Extreme (15) </button>
+    <button type="button" id="btn_pre_5_2" onclick="set_risk_score('pre', 5, 2)" class="w-30 h-10 text-[0.8125rem] text-zinc-700  flex items-center justify-center bg-orange-500 hover:bg-orange-400 shadow-lg">High (10) </button>
+    <button type="button" id="btn_pre_5_1" onclick="set_risk_score('pre', 5, 1)" class="w-30 h-10 text-[0.8125rem] text-zinc-700  flex items-center justify-center bg-yellow-400 hover:bg-yellow-500 shadow-lg">Moderate (5) </button>
+
+    <!-- Row 2 -->
+    <div class=" font-bold text-[0.8125rem] text-zinc-700  w-30 h-10  flex items-center justify-center bg-stone-50 shadow-sm"> Likely </div>
+    <button type="button" id="btn_pre_4_5" id="btn_pre_4_5" onclick="set_risk_score('pre', 4, 5)" class="w-30 h-10 font-semi-bold text-[0.8125rem] text-zinc-100  flex items-center justify-center bg-red-700 hover:bg-red-800 shadow-lg">Extreme (20)</button>
+    <button type="button" id="btn_pre_4_4" onclick="set_risk_score('pre', 4, 4)" class="w-30 h-10 font-semi-bold text-[0.8125rem] text-zinc-100  flex items-center justify-center bg-red-700 hover:bg-red-800 shadow-lg">Extreme (16) </button>
+    <button type="button" id="btn_pre_4_3" onclick="set_risk_score('pre', 4, 3)"  class="w-30 h-10 font-semi-bold text-[0.8125rem] text-zinc-700  flex items-center justify-center bg-orange-500  hover:bg-orange-400 shadow-lg">High (12) </button>
+    <button type="button" id="btn_pre_4_2" onclick="set_risk_score('pre', 4, 2)"  class="w-30 h-10 font-semi-bold text-[0.8125rem] text-zinc-700  flex items-center justify-center bg-orange-500 hover:bg-orange-400 shadow-lg">High (8) </button>
+    <button type="button" id="btn_pre_4_1" onclick="set_risk_score('pre', 4, 1)"  class="w-30 h-10 font-semi-bold text-[0.8125rem] text-zinc-700  flex items-center justify-center bg-yellow-400 hover:bg-yellow-500 shadow-lg">Moderate (4) </button>
+
+    <!-- Row 3 -->
+    <div class=" font-bold text-[0.8125rem] text-zinc-700  w-30 h-10  flex items-center justify-center bg-stone-50 shadow-sm"> Possible </div>
+    <button type="button" id="btn_pre_3_5"  onclick="set_risk_score('pre', 3, 5)"  class="w-30 h-10 font-semi-bold text-[0.8125rem] text-zinc-100  flex items-center justify-center bg-red-700 hover:bg-red-800 shadow-lg">Extreme (15)</button>
+    <button type="button" id="btn_pre_3_4"  onclick="set_risk_score('pre', 3, 4)" class="w-30 h-10 font-semi-bold text-[0.8125rem] text-zinc-700  flex items-center justify-center bg-orange-500 hover:bg-orange-400 shadow-lg">High (12) </button>
+    <button type="button" id="btn_pre_3_3"  onclick="set_risk_score('pre', 3, 3)" class="w-30 h-10 font-semi-bold text-[0.8125rem] text-zinc-700  flex items-center justify-center bg-orange-500 hover:bg-orange-400 shadow-lg">High (9) </button>
+    <button type="button" id="btn_pre_3_2"  onclick="set_risk_score('pre', 3, 2)" class="w-30 h-10 font-semi-bold text-[0.8125rem] text-zinc-700  flex items-center justify-center bg-yellow-400 hover:bg-yellow-500 shadow-lg">Moderate (6) </button>
+    <button type="button" id="btn_pre_3_1"  onclick="set_risk_score('pre', 3, 1)" class="w-30 h-10 font-semi-bold text-[0.8125rem] text-zinc-700  flex items-center justify-center bg-green-300 hover:bg-green-200 shadow-lg">Low (3) </button>
+
+    <!-- Row 4 -->
+    <div class=" font-bold text-[0.8125rem] text-zinc-700  w-30 h-10  flex items-center justify-center bg-stone-50 shadow-sm"> Unlikely </div>
+    <button type="button" id="btn_pre_2_5"  onclick="set_risk_score('pre', 2, 5)" class="w-30 h-10 font-semi-bold text-[0.8125rem] text-zinc-700  flex items-center justify-center bg-orange-500  hover:bg-orange-400 shadow-lg">High (10)</button>
+    <button type="button" id="btn_pre_2_4"  onclick="set_risk_score('pre', 2, 4)" class="w-30 h-10 font-semi-bold text-[0.8125rem] text-zinc-700  flex items-center justify-center bg-orange-500  hover:bg-orange-400 shadow-lg">High (8) </button>
+    <button type="button" id="btn_pre_2_3"  onclick="set_risk_score('pre', 2, 3)" class="w-30 h-10 font-semi-bold text-[0.8125rem] text-zinc-700  flex items-center justify-center bg-yellow-400 hover:bg-yellow-500 shadow-lg">Moderate (6) </button>
+    <button type="button" id="btn_pre_2_2"  onclick="set_risk_score('pre', 2, 2)" class="w-30 h-10 font-semi-bold text-[0.8125rem] text-zinc-700  flex items-center justify-center bg-yellow-400 hover:bg-yellow-500 shadow-lg">Moderate (4) </button>
+    <button type="button" id="btn_pre_2_1"  onclick="set_risk_score('pre', 2, 1)" class="w-30 h-10 font-semi-bold text-[0.8125rem] text-zinc-700  flex items-center justify-center bg-green-300 hover:bg-green-200 shadow-lg">Low (2) </button>
+
+    <!-- Row 5 -->
+    <div class=" font-bold text-[0.8125rem] text-zinc-700  w-30 h-10  flex items-center justify-center bg-stone-50 shadow-sm"> Rare </div>
+    <button type="button" id="btn_pre_1_5"  onclick="set_risk_score('pre', 1, 5)" class="w-30 h-10 font-semi-bold text-[0.8125rem] text-zinc-700  flex items-center justify-center bg-yellow-400 hover:bg-yellow-500 shadow-lg">Moderate (5)</button>
+    <button type="button" id="btn_pre_1_4"  onclick="set_risk_score('pre', 1, 4)" class="w-30 h-10 font-semi-bold text-[0.8125rem] text-zinc-700  flex items-center justify-center bg-yellow-400 hover:bg-yellow-500 shadow-lg">Moderate (4) </button>
+    <button type="button" id="btn_pre_1_3"  onclick="set_risk_score('pre', 1, 3)" class="w-30 h-10 font-semi-bold text-[0.8125rem] text-zinc-700  flex items-center justify-center bg-green-300 hover:bg-green-200 shadow-lg">Low (3) </button>
+    <button type="button" id="btn_pre_1_2"  onclick="set_risk_score('pre', 1, 2)" class="w-30 h-10 font-semi-bold text-[0.8125rem] text-zinc-700  flex items-center justify-center bg-green-300 hover:bg-green-200 shadow-lg">Low (2) </button>
+    <button type="button" id="btn_pre_1_1"  onclick="set_risk_score('pre', 1, 1)" class="w-30 h-10 font-semi-bold text-[0.8125rem] text-zinc-700  flex items-center justify-center bg-green-300 hover:bg-green-200 shadow-lg">Low (1) </button>
+
+</div>
+</div>
+
+      <hr>
+<div>
+      <h4 id="post_control_header" class="capitalize text-md font-semibold leading-8 text-zinc-800">Post-Control Risk Assessment
+
+        </h4>
+  <div class="grid grid-cols-7 gap-1" id="post_risk_matrix">
+
+  <div class="col-span-7 items-center justify-center bg-stone-50 shadow-sm rounded-lg flex  h-14 ">Impact</div>
+    <div class="row-span-6 items-center justify-center bg-stone-50 shadow-sm  flex w-25 "> Likelihood </div>
+
+    <div class="w-30 h-10 bg-stone-50 flex items-center justify-center">&nbsp;</div>
+  <div class="flex font-bold text-[0.8125rem] text-zinc-700 items-center justify-center bg-stone-100 shadow-sm rounded-lg-flex h15"> Catastrophic </div>
+  <div class="flex font-bold text-[0.8125rem] text-zinc-700  items-center justify-center bg-stone-100 shadow-sm rounded-lg-flex h15"> Major </div>
+  <div class="flex font-bold text-[0.8125rem] text-zinc-700 items-center justify-center bg-stone-100 shadow-sm rounded-lg-flex h15"> Moderate </div>
+  <div class="flex font-bold text-[0.8125rem] text-zinc-700  items-center justify-center bg-stone-100 shadow-sm rounded-lg-flex h15"> Minor </div>
+  <div class="flex font-bold text-[0.8125rem] text-zinc-700  items-center justify-center bg-stone-100 shadow-sm rounded-lg-flex h15"> Insignificant </div>
 
 
+  <!-- Row 1 -->
+
+    <div class=" font-bold text-[0.8125rem] text-zinc-700  w-30 h-10  flex items-center justify-center bg-stone-50 shadow-sm"> Almost Certain </div>
+    <button type="button" id="btn_post_5_5" onclick="set_risk_score('post', 5, 5)" class="w-30 h-10  text-[0.8125rem] text-zinc-100 flex items-center justify-center bg-red-700 hover:bg-red-900 shadow-lg">Extreme (25)</button>
+    <button type="button" id="btn_post_5_4" onclick="set_risk_score('post', 5, 4)" class="w-30 h-10  text-[0.8125rem] text-zinc-100  flex items-center justify-center bg-red-700 hover:bg-red-800 shadow-lg">Extreme (20) </button>
+    <button type="button" id="btn_post_5_3" onclick="set_risk_score('post', 5, 3)" class="w-30 h-10  text-[0.8125rem] text-zinc-100  flex items-center justify-center bg-red-700 hover:bg-red-800 shadow-lg">Extreme (15) </button>
+    <button type="button" id="btn_post_5_2" onclick="set_risk_score('post', 5, 2)" class="w-30 h-10 text-[0.8125rem] text-zinc-700  flex items-center justify-center bg-orange-500 hover:bg-orange-400 shadow-lg">High (10) </button>
+    <button type="button" id="btn_post_5_1" onclick="set_risk_score('post', 5, 1)" class="w-30 h-10 text-[0.8125rem] text-zinc-700  flex items-center justify-center bg-yellow-400 hover:bg-yellow-500 shadow-lg">Moderate (5) </button>
+
+    <!-- Row 2 -->
+    <div class=" font-bold text-[0.8125rem] text-zinc-700  w-30 h-10  flex items-center justify-center bg-stone-50 shadow-sm"> Likely </div>
+    <button type="button" id="btn_post_4_5" id="btn_post_4_5" onclick="set_risk_score('post', 4, 5)" class="w-30 h-10 font-semi-bold text-[0.8125rem] text-zinc-100  flex items-center justify-center bg-red-700 hover:bg-red-800 shadow-lg">Extreme (20)</button>
+    <button type="button" id="btn_post_4_4" onclick="set_risk_score('post', 4, 4)" class="w-30 h-10 font-semi-bold text-[0.8125rem] text-zinc-100  flex items-center justify-center bg-red-700 hover:bg-red-800 shadow-lg">Extreme (16) </button>
+    <button type="button" id="btn_post_4_3" onclick="set_risk_score('post', 4, 3)"  class="w-30 h-10 font-semi-bold text-[0.8125rem] text-zinc-700  flex items-center justify-center bg-orange-500  hover:bg-orange-400 shadow-lg">High (12) </button>
+    <button type="button" id="btn_post_4_2" onclick="set_risk_score('post', 4, 2)"  class="w-30 h-10 font-semi-bold text-[0.8125rem] text-zinc-700  flex items-center justify-center bg-orange-500 hover:bg-orange-400 shadow-lg">High (8) </button>
+    <button type="button" id="btn_post_4_1" onclick="set_risk_score('post', 4, 1)"  class="w-30 h-10 font-semi-bold text-[0.8125rem] text-zinc-700  flex items-center justify-center bg-yellow-400 hover:bg-yellow-500 shadow-lg">Moderate (4) </button>
+
+    <!-- Row 3 -->
+    <div class=" font-bold text-[0.8125rem] text-zinc-700  w-30 h-10  flex items-center justify-center bg-stone-50 shadow-sm"> Possible </div>
+    <button type="button" id="btn_post_3_5"  onclick="set_risk_score('post', 3, 5)"  class="w-30 h-10 font-semi-bold text-[0.8125rem] text-zinc-100  flex items-center justify-center bg-red-700 hover:bg-red-800 shadow-lg">Extreme (15)</button>
+    <button type="button" id="btn_post_3_4"  onclick="set_risk_score('post', 3, 4)" class="w-30 h-10 font-semi-bold text-[0.8125rem] text-zinc-700  flex items-center justify-center bg-orange-500 hover:bg-orange-400 shadow-lg">High (12) </button>
+    <button type="button" id="btn_post_3_3"  onclick="set_risk_score('post', 3, 3)" class="w-30 h-10 font-semi-bold text-[0.8125rem] text-zinc-700  flex items-center justify-center bg-orange-500 hover:bg-orange-400 shadow-lg">High (9) </button>
+    <button type="button" id="btn_post_3_2"  onclick="set_risk_score('post', 3, 2)" class="w-30 h-10 font-semi-bold text-[0.8125rem] text-zinc-700  flex items-center justify-center bg-yellow-400 hover:bg-yellow-500 shadow-lg">Moderate (6) </button>
+    <button type="button" id="btn_post_3_1"  onclick="set_risk_score('post', 3, 1)" class="w-30 h-10 font-semi-bold text-[0.8125rem] text-zinc-700  flex items-center justify-center bg-green-300 hover:bg-green-200 shadow-lg">Low (3) </button>
+
+    <!-- Row 4 -->
+    <div class=" font-bold text-[0.8125rem] text-zinc-700  w-30 h-10  flex items-center justify-center bg-stone-50 shadow-sm"> Unlikely </div>
+    <button type="button" id="btn_post_2_5"  onclick="set_risk_score('post', 2, 5)" class="w-30 h-10 font-semi-bold text-[0.8125rem] text-zinc-700  flex items-center justify-center bg-orange-500  hover:bg-orange-400 shadow-lg">High (10)</button>
+    <button type="button" id="btn_post_2_4"  onclick="set_risk_score('post', 2, 4)" class="w-30 h-10 font-semi-bold text-[0.8125rem] text-zinc-700  flex items-center justify-center bg-orange-500  hover:bg-orange-400 shadow-lg">High (8) </button>
+    <button type="button" id="btn_post_2_3"  onclick="set_risk_score('post', 2, 3)" class="w-30 h-10 font-semi-bold text-[0.8125rem] text-zinc-700  flex items-center justify-center bg-yellow-400 hover:bg-yellow-500 shadow-lg">Moderate (6) </button>
+    <button type="button" id="btn_post_2_2"  onclick="set_risk_score('post', 2, 2)" class="w-30 h-10 font-semi-bold text-[0.8125rem] text-zinc-700  flex items-center justify-center bg-yellow-400 hover:bg-yellow-500 shadow-lg">Moderate (4) </button>
+    <button type="button" id="btn_post_2_1"  onclick="set_risk_score('post', 2, 1)" class="w-30 h-10 font-semi-bold text-[0.8125rem] text-zinc-700  flex items-center justify-center bg-green-300 hover:bg-green-200 shadow-lg">Low (2) </button>
+
+    <!-- Row 5 -->
+    <div class=" font-bold text-[0.8125rem] text-zinc-700  w-30 h-10  flex items-center justify-center bg-stone-50 shadow-sm"> Rare </div>
+    <button type="button" id="btn_post_1_5"  onclick="set_risk_score('post', 1, 5)" class="w-30 h-10 font-semi-bold text-[0.8125rem] text-zinc-700  flex items-center justify-center bg-yellow-400 hover:bg-yellow-500 shadow-lg">Moderate (5)</button>
+    <button type="button" id="btn_post_1_4"  onclick="set_risk_score('post', 1, 4)" class="w-30 h-10 font-semi-bold text-[0.8125rem] text-zinc-700  flex items-center justify-center bg-yellow-400 hover:bg-yellow-500 shadow-lg">Moderate (4) </button>
+    <button type="button" id="btn_post_1_3"  onclick="set_risk_score('post', 1, 3)" class="w-30 h-10 font-semi-bold text-[0.8125rem] text-zinc-700  flex items-center justify-center bg-green-300 hover:bg-green-200 shadow-lg">Low (3) </button>
+    <button type="button" id="btn_post_1_2"  onclick="set_risk_score('post', 1, 2)" class="w-30 h-10 font-semi-bold text-[0.8125rem] text-zinc-700  flex items-center justify-center bg-green-300 hover:bg-green-200 shadow-lg">Low (2) </button>
+    <button type="button" id="btn_post_1_1"  onclick="set_risk_score('post', 1, 1)" class="w-30 h-10 font-semi-bold text-[0.8125rem] text-zinc-700  flex items-center justify-center bg-green-300 hover:bg-green-200 shadow-lg">Low (1) </button>
+
+</div>
+</div>
+   <% end %>
   <:actions>
     <.button>Save Risk assessment</.button>
   </:actions>
@@ -75,118 +198,8 @@
 </.table>
 </div>
 
-<div class="grid grid-cols-7 gap-1" id="pre_risk_matrix">
-  <div class="col-span-7 items-center justify-center bg-stone-50 shadow-sm rounded-lg flex  h-14 ">Impact</div>
-    <div class="row-span-6 items-center justify-center bg-stone-50 shadow-sm  flex w-25 "> Likelihood </div>
-
-    <div class="w-30 h-10 bg-stone-50 flex items-center justify-center">&nbsp;</div>
-  <div class="flex font-bold text-[0.8125rem] text-zinc-500 items-center justify-center bg-stone-100 shadow-sm rounded-lg-flex h15"> Catastrophic </div>
-  <div class="flex font-bold text-[0.8125rem] text-zinc-500  items-center justify-center bg-stone-100 shadow-sm rounded-lg-flex h15"> Major </div>
-  <div class="flex font-bold text-[0.8125rem] text-zinc-500 items-center justify-center bg-stone-100 shadow-sm rounded-lg-flex h15"> Moderate </div>
-  <div class="flex font-bold text-[0.8125rem] text-zinc-500  items-center justify-center bg-stone-100 shadow-sm rounded-lg-flex h15"> Minor </div>
-  <div class="flex font-bold text-[0.8125rem] text-zinc-500  items-center justify-center bg-stone-100 shadow-sm rounded-lg-flex h15"> Insignificant </div>
 
 
-  <!-- Row 1 -->
-
-    <div class=" font-bold text-[0.8125rem] text-zinc-500  w-30 h-10  flex items-center justify-center bg-stone-50 shadow-sm"> Almost Certain </div>
-    <button id="btn_pre_5_5" onclick="set_risk_score('pre', 5, 5)" class="w-30 h-10  text-[0.8125rem] text-zinc-100 flex items-center justify-center bg-red-700 hover:bg-red-900 shadow-lg">Extreme (25)</button>
-    <button id="btn_pre_5_4" onclick="set_risk_score('pre', 5, 4)" class="w-30 h-10  text-[0.8125rem] text-zinc-100  flex items-center justify-center bg-red-700 hover:bg-red-800 shadow-lg">Extreme (20) </button>
-    <button id="btn_pre_5_3" onclick="set_risk_score('pre', 5, 3)" class="w-30 h-10  text-[0.8125rem] text-zinc-100  flex items-center justify-center bg-red-700 hover:bg-red-800 shadow-lg">Extreme (15) </button>
-    <button id="btn_pre_5_2" onclick="set_risk_score('pre', 5, 2)" class="w-30 h-10 text-[0.8125rem] text-zinc-500  flex items-center justify-center bg-orange-500 hover:bg-orange-400 shadow-lg">High (10) </button>
-    <button id="btn_pre_5_1" onclick="set_risk_score('pre', 5, 1)" class="w-30 h-10 text-[0.8125rem] text-zinc-500  flex items-center justify-center bg-yellow-400 hover:bg-yellow-500 shadow-lg">Moderate (5) </button>
-
-    <!-- Row 2 -->
-    <div class=" font-bold text-[0.8125rem] text-zinc-500  w-30 h-10  flex items-center justify-center bg-stone-50 shadow-sm"> Likely </div>
-    <button id="btn_pre_4_5" id="btn_pre_4_5" onclick="set_risk_score('pre', 4, 5)" class="w-30 h-10 font-semi-bold text-[0.8125rem] text-zinc-100  flex items-center justify-center bg-red-700 hover:bg-red-800 shadow-lg">Extreme (20)</button>
-    <button id="btn_pre_4_4" onclick="set_risk_score('pre', 4, 4)" class="w-30 h-10 font-semi-bold text-[0.8125rem] text-zinc-100  flex items-center justify-center bg-red-700 hover:bg-red-800 shadow-lg">Extreme (16) </button>
-    <button id="btn_pre_4_3" onclick="set_risk_score('pre', 4, 3)"  class="w-30 h-10 font-semi-bold text-[0.8125rem] text-zinc-500  flex items-center justify-center bg-orange-500  hover:bg-orange-400 shadow-lg">High (12) </button>
-    <button id="btn_pre_4_2" onclick="set_risk_score('pre', 4, 2)"  class="w-30 h-10 font-semi-bold text-[0.8125rem] text-zinc-500  flex items-center justify-center bg-orange-500 hover:bg-orange-400 shadow-lg">High (8) </button>
-    <button id="btn_pre_4_1" onclick="set_risk_score('pre', 4, 1)"  class="w-30 h-10 font-semi-bold text-[0.8125rem] text-zinc-500  flex items-center justify-center bg-yellow-400 hover:bg-yellow-500 shadow-lg">Moderate (4) </button>
-
-    <!-- Row 3 -->
-    <div class=" font-bold text-[0.8125rem] text-zinc-500  w-30 h-10  flex items-center justify-center bg-stone-50 shadow-sm"> Possible </div>
-    <button id="btn_pre_3_5"  onclick="set_risk_score('pre', 3, 5)"  class="w-30 h-10 font-semi-bold text-[0.8125rem] text-zinc-100  flex items-center justify-center bg-red-700 hover:bg-red-800 shadow-lg">Extreme (15)</button>
-    <button id="btn_pre_3_4"  onclick="set_risk_score('pre', 3, 4)" class="w-30 h-10 font-semi-bold text-[0.8125rem] text-zinc-500  flex items-center justify-center bg-orange-500 hover:bg-orange-400 shadow-lg">High (12) </button>
-    <button id="btn_pre_3_3"  onclick="set_risk_score('pre', 3, 3)" class="w-30 h-10 font-semi-bold text-[0.8125rem] text-zinc-500  flex items-center justify-center bg-orange-500 hover:bg-orange-400 shadow-lg">High (9) </button>
-    <button id="btn_pre_3_2"  onclick="set_risk_score('pre', 3, 2)" class="w-30 h-10 font-semi-bold text-[0.8125rem] text-zinc-500  flex items-center justify-center bg-yellow-400 hover:bg-yellow-500 shadow-lg">Moderate (6) </button>
-    <button id="btn_pre_3_1"  onclick="set_risk_score('pre', 3, 1)" class="w-30 h-10 font-semi-bold text-[0.8125rem] text-zinc-500  flex items-center justify-center bg-green-300 hover:bg-green-200 shadow-lg">Low (3) </button>
-
-    <!-- Row 4 -->
-    <div class=" font-bold text-[0.8125rem] text-zinc-500  w-30 h-10  flex items-center justify-center bg-stone-50 shadow-sm"> Unlikely </div>
-    <button id="btn_pre_2_5"  onclick="set_risk_score('pre', 2, 5)" class="w-30 h-10 font-semi-bold text-[0.8125rem] text-zinc-500  flex items-center justify-center bg-orange-500  hover:bg-orange-400 shadow-lg">High (10)</button>
-    <button id="btn_pre_2_4"  onclick="set_risk_score('pre', 2, 4)" class="w-30 h-10 font-semi-bold text-[0.8125rem] text-zinc-500  flex items-center justify-center bg-orange-500  hover:bg-orange-400 shadow-lg">High (8) </button>
-    <button id="btn_pre_2_3"  onclick="set_risk_score('pre', 2, 3)" class="w-30 h-10 font-semi-bold text-[0.8125rem] text-zinc-500  flex items-center justify-center bg-yellow-400 hover:bg-yellow-500 shadow-lg">Moderate (6) </button>
-    <button id="btn_pre_2_2"  onclick="set_risk_score('pre', 2, 2)" class="w-30 h-10 font-semi-bold text-[0.8125rem] text-zinc-500  flex items-center justify-center bg-yellow-400 hover:bg-yellow-500 shadow-lg">Moderate (4) </button>
-    <button id="btn_pre_2_1"  onclick="set_risk_score('pre', 2, 1)" class="w-30 h-10 font-semi-bold text-[0.8125rem] text-zinc-500  flex items-center justify-center bg-green-300 hover:bg-green-200 shadow-lg">Low (2) </button>
-
-    <!-- Row 5 -->
-    <div class=" font-bold text-[0.8125rem] text-zinc-500  w-30 h-10  flex items-center justify-center bg-stone-50 shadow-sm"> Rare </div>
-    <button id="btn_pre_1_5"  onclick="set_risk_score('pre', 1, 5)" class="w-30 h-10 font-semi-bold text-[0.8125rem] text-zinc-500  flex items-center justify-center bg-yellow-400 hover:bg-yellow-500 shadow-lg">Moderate (5)</button>
-    <button id="btn_pre_1_4"  onclick="set_risk_score('pre', 1, 4)" class="w-30 h-10 font-semi-bold text-[0.8125rem] text-zinc-500  flex items-center justify-center bg-yellow-400 hover:bg-yellow-500 shadow-lg">Moderate (4) </button>
-    <button id="btn_pre_1_3"  onclick="set_risk_score('pre', 1, 3)" class="w-30 h-10 font-semi-bold text-[0.8125rem] text-zinc-500  flex items-center justify-center bg-green-300 hover:bg-green-200 shadow-lg">Low (3) </button>
-    <button id="btn_pre_1_2"  onclick="set_risk_score('pre', 1, 2)" class="w-30 h-10 font-semi-bold text-[0.8125rem] text-zinc-500  flex items-center justify-center bg-green-300 hover:bg-green-200 shadow-lg">Low (2) </button>
-    <button id="btn_pre_1_1"  onclick="set_risk_score('pre', 1, 1)" class="w-30 h-10 font-semi-bold text-[0.8125rem] text-zinc-500  flex items-center justify-center bg-green-300 hover:bg-green-200 shadow-lg">Low (1) </button>
-
-</div>
-
-
-<br>
-
-<div class="grid grid-cols-7 gap-1" id="post_risk_matrix">
-  <div class="col-span-7 items-center justify-center bg-stone-50 shadow-sm rounded-lg flex  h-14 ">Impact</div>
-    <div class="row-span-6 items-center justify-center bg-stone-50 shadow-sm  flex w-25 "> Likelihood </div>
-
-    <div class="w-30 h-10 bg-stone-50 flex items-center justify-center">&nbsp;</div>
-  <div class="flex font-bold text-[0.8125rem] text-zinc-500 items-center justify-center bg-stone-100 shadow-sm rounded-lg-flex h15"> Catastrophic </div>
-  <div class="flex font-bold text-[0.8125rem] text-zinc-500  items-center justify-center bg-stone-100 shadow-sm rounded-lg-flex h15"> Major </div>
-  <div class="flex font-bold text-[0.8125rem] text-zinc-500 items-center justify-center bg-stone-100 shadow-sm rounded-lg-flex h15"> Moderate </div>
-  <div class="flex font-bold text-[0.8125rem] text-zinc-500  items-center justify-center bg-stone-100 shadow-sm rounded-lg-flex h15"> Minor </div>
-  <div class="flex font-bold text-[0.8125rem] text-zinc-500  items-center justify-center bg-stone-100 shadow-sm rounded-lg-flex h15"> Insignificant </div>
-
-
-  <!-- Row 1 -->
-
-    <div class=" font-bold text-[0.8125rem] text-zinc-500  w-30 h-10  flex items-center justify-center bg-stone-50 shadow-sm"> Almost Certain </div>
-    <button id="btn_post_5_5" onclick="set_risk_score('post', 5, 5)" class="w-30 h-10  text-[0.8125rem] text-zinc-100 flex items-center justify-center bg-red-700 hover:bg-red-900 shadow-lg">Extreme (25)</button>
-    <button id="btn_post_5_4" onclick="set_risk_score('post', 5, 4)" class="w-30 h-10  text-[0.8125rem] text-zinc-100  flex items-center justify-center bg-red-700 hover:bg-red-800 shadow-lg">Extreme (20) </button>
-    <button id="btn_post_5_3" onclick="set_risk_score('post', 5, 3)" class="w-30 h-10  text-[0.8125rem] text-zinc-100  flex items-center justify-center bg-red-700 hover:bg-red-800 shadow-lg">Extreme (15) </button>
-    <button id="btn_post_5_2" onclick="set_risk_score('post', 5, 2)" class="w-30 h-10 text-[0.8125rem] text-zinc-500  flex items-center justify-center bg-orange-500 hover:bg-orange-400 shadow-lg">High (10) </button>
-    <button id="btn_post_5_1" onclick="set_risk_score('post', 5, 1)" class="w-30 h-10 text-[0.8125rem] text-zinc-500  flex items-center justify-center bg-yellow-400 hover:bg-yellow-500 shadow-lg">Moderate (5) </button>
-
-    <!-- Row 2 -->
-    <div class=" font-bold text-[0.8125rem] text-zinc-500  w-30 h-10  flex items-center justify-center bg-stone-50 shadow-sm"> Likely </div>
-    <button id="btn_post_4_5" id="btn_post_4_5" onclick="set_risk_score('post', 4, 5)" class="w-30 h-10 font-semi-bold text-[0.8125rem] text-zinc-100  flex items-center justify-center bg-red-700 hover:bg-red-800 shadow-lg">Extreme (20)</button>
-    <button id="btn_post_4_4" onclick="set_risk_score('post', 4, 4)" class="w-30 h-10 font-semi-bold text-[0.8125rem] text-zinc-100  flex items-center justify-center bg-red-700 hover:bg-red-800 shadow-lg">Extreme (16) </button>
-    <button id="btn_post_4_3" onclick="set_risk_score('post', 4, 3)"  class="w-30 h-10 font-semi-bold text-[0.8125rem] text-zinc-500  flex items-center justify-center bg-orange-500  hover:bg-orange-400 shadow-lg">High (12) </button>
-    <button id="btn_post_4_2" onclick="set_risk_score('post', 4, 2)"  class="w-30 h-10 font-semi-bold text-[0.8125rem] text-zinc-500  flex items-center justify-center bg-orange-500 hover:bg-orange-400 shadow-lg">High (8) </button>
-    <button id="btn_post_4_1" onclick="set_risk_score('post', 4, 1)"  class="w-30 h-10 font-semi-bold text-[0.8125rem] text-zinc-500  flex items-center justify-center bg-yellow-400 hover:bg-yellow-500 shadow-lg">Moderate (4) </button>
-
-    <!-- Row 3 -->
-    <div class=" font-bold text-[0.8125rem] text-zinc-500  w-30 h-10  flex items-center justify-center bg-stone-50 shadow-sm"> Possible </div>
-    <button id="btn_post_3_5"  onclick="set_risk_score('post', 3, 5)"  class="w-30 h-10 font-semi-bold text-[0.8125rem] text-zinc-100  flex items-center justify-center bg-red-700 hover:bg-red-800 shadow-lg">Extreme (15)</button>
-    <button id="btn_post_3_4"  onclick="set_risk_score('post', 3, 4)" class="w-30 h-10 font-semi-bold text-[0.8125rem] text-zinc-500  flex items-center justify-center bg-orange-500 hover:bg-orange-400 shadow-lg">High (12) </button>
-    <button id="btn_post_3_3"  onclick="set_risk_score('post', 3, 3)" class="w-30 h-10 font-semi-bold text-[0.8125rem] text-zinc-500  flex items-center justify-center bg-orange-500 hover:bg-orange-400 shadow-lg">High (9) </button>
-    <button id="btn_post_3_2"  onclick="set_risk_score('post', 3, 2)" class="w-30 h-10 font-semi-bold text-[0.8125rem] text-zinc-500  flex items-center justify-center bg-yellow-400 hover:bg-yellow-500 shadow-lg">Moderate (6) </button>
-    <button id="btn_post_3_1"  onclick="set_risk_score('post', 3, 1)" class="w-30 h-10 font-semi-bold text-[0.8125rem] text-zinc-500  flex items-center justify-center bg-green-300 hover:bg-green-200 shadow-lg">Low (3) </button>
-
-    <!-- Row 4 -->
-    <div class=" font-bold text-[0.8125rem] text-zinc-500  w-30 h-10  flex items-center justify-center bg-stone-50 shadow-sm"> Unlikely </div>
-    <button id="btn_post_2_5"  onclick="set_risk_score('post', 2, 5)" class="w-30 h-10 font-semi-bold text-[0.8125rem] text-zinc-500  flex items-center justify-center bg-orange-500  hover:bg-orange-400 shadow-lg">High (10)</button>
-    <button id="btn_post_2_4"  onclick="set_risk_score('post', 2, 4)" class="w-30 h-10 font-semi-bold text-[0.8125rem] text-zinc-500  flex items-center justify-center bg-orange-500  hover:bg-orange-400 shadow-lg">High (8) </button>
-    <button id="btn_post_2_3"  onclick="set_risk_score('post', 2, 3)" class="w-30 h-10 font-semi-bold text-[0.8125rem] text-zinc-500  flex items-center justify-center bg-yellow-400 hover:bg-yellow-500 shadow-lg">Moderate (6) </button>
-    <button id="btn_post_2_2"  onclick="set_risk_score('post', 2, 2)" class="w-30 h-10 font-semi-bold text-[0.8125rem] text-zinc-500  flex items-center justify-center bg-yellow-400 hover:bg-yellow-500 shadow-lg">Moderate (4) </button>
-    <button id="btn_post_2_1"  onclick="set_risk_score('post', 2, 1)" class="w-30 h-10 font-semi-bold text-[0.8125rem] text-zinc-500  flex items-center justify-center bg-green-300 hover:bg-green-200 shadow-lg">Low (2) </button>
-
-    <!-- Row 5 -->
-    <div class=" font-bold text-[0.8125rem] text-zinc-500  w-30 h-10  flex items-center justify-center bg-stone-50 shadow-sm"> Rare </div>
-    <button id="btn_post_1_5"  onclick="set_risk_score('post', 1, 5)" class="w-30 h-10 font-semi-bold text-[0.8125rem] text-zinc-500  flex items-center justify-center bg-yellow-400 hover:bg-yellow-500 shadow-lg">Moderate (5)</button>
-    <button id="btn_post_1_4"  onclick="set_risk_score('post', 1, 4)" class="w-30 h-10 font-semi-bold text-[0.8125rem] text-zinc-500  flex items-center justify-center bg-yellow-400 hover:bg-yellow-500 shadow-lg">Moderate (4) </button>
-    <button id="btn_post_1_3"  onclick="set_risk_score('post', 1, 3)" class="w-30 h-10 font-semi-bold text-[0.8125rem] text-zinc-500  flex items-center justify-center bg-green-300 hover:bg-green-200 shadow-lg">Low (3) </button>
-    <button id="btn_post_1_2"  onclick="set_risk_score('post', 1, 2)" class="w-30 h-10 font-semi-bold text-[0.8125rem] text-zinc-500  flex items-center justify-center bg-green-300 hover:bg-green-200 shadow-lg">Low (2) </button>
-    <button id="btn_post_1_1"  onclick="set_risk_score('post', 1, 1)" class="w-30 h-10 font-semi-bold text-[0.8125rem] text-zinc-500  flex items-center justify-center bg-green-300 hover:bg-green-200 shadow-lg">Low (1) </button>
-
-</div>
 
 
 
@@ -215,12 +228,29 @@
 
       var likelihood_form = "risk_assessment_" + risk_type + "control_likelihood";
       var risk = "risk_assessment_" + risk_type + "control_risk";
+      var header = risk_type +"_control_header";
 
+      var risk_outcome = "Low";
 
 
       document.getElementById(impact_form).value = impact;
       document.getElementById(likelihood_form).value = likelihood;
       document.getElementById(risk).value = likelihood * impact;
+
+      if(impact * likelihood  >= 15) {
+          risk_outcome = "Extreme";
+      }
+      else if(impact * likelihood >= 8) {
+          risk_outcome = "High";
+      }
+      else if(impact * likelihood >= 4) {
+          risk_outcome = "Moderate";
+      }
+
+
+
+
+      document.getElementById(header).innerText = risk_type + "-Control Risk Assessment: " + risk_outcome;
   }
 
   function clear_risk_selections(risk_type) {

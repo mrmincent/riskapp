@@ -16,6 +16,7 @@ defmodule Risk4Web.RiskAssessmentHTML do
   attr :vulnerabilitylist, :any, default: []
   attr :items, :any, default: []
   attr :itemslist, :any, default: []
+  attr :displaymtx, :boolean, default: false
 
   def risk_assessment_form(assigns)
 end
