@@ -29,6 +29,7 @@
                   value={Enum.map(@items, & &1.id)}
                   label="Assets" />
 
+                <.input field={f[:itemsdescription]} type="textarea" label="Asset Description" placeholder="Specific Asset Detail"/>
 
                   <.input field={f[:threat_ids]} type="select"
                           multiple={true}
@@ -36,6 +37,7 @@
                           fn threat -> {threat.name, threat.id} end)}
                     value={Enum.map(@threats, & &1.id)}
                     label="Threats" />
+                    <.input field={f[:threatdescription]} type="textarea" label="Threat Description" placeholder="Specific Threat Detail"/>
 
                     <.input field={f[:vulnerability_ids]} type="select"
                             multiple={true}
@@ -43,7 +45,7 @@
                             fn vulnerability -> {vulnerability.name, vulnerability.id} end)}
                       value={Enum.map(@vulnerabilities, & &1.id)}
                       label="Vulnerabilities" />
-
+                      <.input field={f[:vulnerabilitydescription]} type="textarea" label="Vulnerability Description" placeholder="Specific Vulnerability Detail"/>
 
 
   <div class="hidden">
@@ -60,7 +62,9 @@
           options={Enum.map(Risk4.Repo.all(Risk4.Assessment.Control),
           fn control -> {control.name, control.id} end)}
     value={Enum.map(@controls, & &1.id)}
-    label="Controls" />
+      label="Controls" />
+
+      <.input field={f[:controlsdescription]} type="textarea" label="Controls Description" placeholder="Specific Control Detail"/>
 <hr>
 
       <div>
@@ -184,7 +188,11 @@
 
 </div>
 </div>
-   <% end %>
+
+<.input field={f[:risksummary]} type="textarea" label="Risk Summary" placeholder="Final Conclusions on this Risk Assessment"/>
+
+
+<% end %>
   <:actions>
     <.button>Save Risk assessment</.button>
   </:actions>
